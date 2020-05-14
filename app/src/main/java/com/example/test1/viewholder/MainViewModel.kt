@@ -1,4 +1,4 @@
-package com.example.test1
+package com.example.test1.viewholder
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

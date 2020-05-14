@@ -12,9 +12,9 @@ class PostRepository {
     private var post = ArrayList<Data>()
     private val mutableLiveData = MutableLiveData<List<Data>>()
     fun getMutableLiveData(): MutableLiveData<List<Data>> {
-        val userDataService = APIClient.getClient()
+        val userDataService = APIClient.client
         val call = userDataService.post
-        call.enqueue(object : Callback<Post?> {
+        call?.enqueue(object : Callback<Post?> {
             override fun onResponse(call: Call<Post?>, response: Response<Post?>) {
                 val Post = response.body()
                 if (Post != null && Post.hits!!.hits != null) {
@@ -22,7 +22,6 @@ class PostRepository {
                     mutableLiveData.value = post
                 }
             }
-
             override fun onFailure(call: Call<Post?>, t: Throwable) {}
         })
         return mutableLiveData

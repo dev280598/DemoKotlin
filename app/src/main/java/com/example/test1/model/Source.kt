@@ -35,9 +35,9 @@ class Source {
     @SerializedName("when")
     @Expose
     var `when`: String? = null
-        set(when) {
-            field = `when`
-        }
+//        set(when) {
+//            field = `when`
+//        }
 
     @SerializedName("fi102")
     @Expose

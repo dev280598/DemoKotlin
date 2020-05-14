@@ -10,6 +10,7 @@ class Data {
     var img: String? = null
 
     companion object {
+        @JvmStatic
         @BindingAdapter("avatar")
         fun loadImage(imageView: ImageView, imageURL: String?) {
             Glide.with(imageView.context)

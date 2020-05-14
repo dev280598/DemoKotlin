@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.test1.adapter.PostAdapter
 import com.example.test1.databinding.ActivityMainBinding
 import com.example.test1.model.Data
+import com.example.test1.viewholder.MainViewModel
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -28,6 +29,6 @@ class MainActivity : AppCompatActivity() {
 
     private val allPost: Unit
         private get() {
-            mainViewModel!!.allPost.observe(this, Observer<List<Data?>?> { post -> postAdapter!!.setPostList(post as ArrayList<Data?>) })
+            mainViewModel!!.allPost.observe(this, Observer<List<Data?>?> { post -> postAdapter!!.setPostList(post as ArrayList<Data>?) })
         }
 }

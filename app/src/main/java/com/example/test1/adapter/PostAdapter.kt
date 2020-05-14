@@ -9,12 +9,16 @@ import com.example.test1.R
 import com.example.test1.adapter.PostAdapter.PostViewHolder
 import com.example.test1.databinding.PostListItemBinding
 import com.example.test1.model.Data
+import com.example.test1.model.Hit
 import java.util.*
 
-class PostAdapter : RecyclerView.Adapter<PostViewHolder>() {
+class PostAdapter  : RecyclerView.Adapter<PostViewHolder>() {
+
     private var post: ArrayList<Data>? = null
+
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): PostViewHolder {
-        val postListItemBinding: PostListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.context),
+        val postListItemBinding: PostListItemBinding
+                = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.context),
                 R.layout.post_list_item, viewGroup, false)
         return PostViewHolder(postListItemBinding)
     }
