@@ -2,7 +2,8 @@ package com.example.test1.model
 
 import androidx.lifecycle.MutableLiveData
 import com.example.test1.Retrofit.APIClient
-import com.example.test1.Util.convertData
+
+import com.example.test1.constant.Util.convertData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

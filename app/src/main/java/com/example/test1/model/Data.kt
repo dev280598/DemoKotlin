@@ -8,6 +8,7 @@ import com.bumptech.glide.request.RequestOptions
 class Data {
     var name: String? = null
     var img: String? = null
+    var type:String?=null
 
     companion object {
         @JvmStatic
