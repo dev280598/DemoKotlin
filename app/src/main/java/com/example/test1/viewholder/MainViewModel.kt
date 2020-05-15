@@ -10,7 +10,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val postRepository: PostRepository
     val allPost: LiveData<List<Data>>
         get() = postRepository.getMutableLiveData()
-
     init {
         postRepository = PostRepository()
     }

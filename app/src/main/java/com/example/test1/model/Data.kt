@@ -5,10 +5,18 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
+
 class Data {
     var name: String? = null
     var img: String? = null
-    var type:String?=null
+    var type: ItemType? = null
+    var noti: String? = null
+
+
+    enum class ItemType {
+        ONE_ITEM, TWO_ITEM
+    }
+
 
     companion object {
         @JvmStatic
@@ -20,5 +28,9 @@ class Data {
                     .load(imageURL)
                     .into(imageView)
         }
+    }
+
+    override fun toString(): String {
+        return "Data(name=$name, img=$img, type=$type, noti=$noti)"
     }
 }

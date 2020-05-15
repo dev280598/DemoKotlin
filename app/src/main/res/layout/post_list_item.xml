@@ -7,6 +7,9 @@
     <variable
         name="post"
         type="com.example.test1.model.Data"/>
+    <import type="android.view.View" />
+
+
   </data>
   <LinearLayout
       android:layout_width="match_parent"
