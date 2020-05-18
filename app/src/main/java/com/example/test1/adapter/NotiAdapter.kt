@@ -7,17 +7,17 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.test1.R
 import com.example.test1.constant.Constants.Companion.LIST_KEY
-import com.example.test1.constant.NetworkState
+
 import com.example.test1.databinding.ItemEmptyBinding
 import com.example.test1.databinding.PostListItemBinding
 import com.example.test1.model.Data
 import java.util.*
 
-class PostAdapter  : RecyclerView.Adapter<ViewHolder>() {
+class NotiAdapter  : RecyclerView.Adapter<ViewHolder>() {
     private val EMPTY_ITEM = 0
     private val NORMAL_ITEM = 1
     private var post: ArrayList<Data>? = null
-    private var networkState: NetworkState? = null
+
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
        return if (i == NORMAL_ITEM) {
@@ -63,7 +63,7 @@ class PostAdapter  : RecyclerView.Adapter<ViewHolder>() {
             }
        }
     }
-    private fun hasExtraRow() = networkState != null && networkState != NetworkState.LOADED
+
 
     private fun initLayoutOne(postViewHolder: PostViewHolder, i: Int) {
         val currentStudent = post!![i]
