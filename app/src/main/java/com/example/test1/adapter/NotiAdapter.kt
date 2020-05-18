@@ -6,7 +6,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.test1.R
-import com.example.test1.constant.Constants
+import com.example.test1.constant.Constants.Companion.LIST_KEY
+import com.example.test1.constant.NetworkState
 import com.example.test1.databinding.ItemEmptyBinding
 import com.example.test1.databinding.PostListItemBinding
 import com.example.test1.model.Data
@@ -16,6 +17,7 @@ class PostAdapter  : RecyclerView.Adapter<ViewHolder>() {
     private val EMPTY_ITEM = 0
     private val NORMAL_ITEM = 1
     private var post: ArrayList<Data>? = null
+    private var networkState: NetworkState? = null
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
        return if (i == NORMAL_ITEM) {
@@ -27,19 +29,22 @@ class PostAdapter  : RecyclerView.Adapter<ViewHolder>() {
                     R.layout.item_empty, viewGroup, false)
             PostViewHolderEmpty(itemEmptyBinding)
         }
+
     }
+
     override fun getItemViewType(position: Int): Int {
-        return if (post?.get(position)?.noti.equals(Constants.LIKE_POST)
-                ||post?.get(position)?.noti.equals(Constants.COMMENT_POST)
-                ||post?.get(position)?.noti.equals(Constants.COMMENT_COMMENT)
-                ||post?.get(position)?.noti.equals(Constants.SHARE_POST)
-        )
+        return if (LIST_KEY.containsKey(post?.get(position)?.noti)
+//                ||post?.get(position)?.noti.equals(Constants.COMMENT_POST)
+//                ||post?.get(position)?.noti.equals(Constants.COMMENT_COMMENT)
+//                ||post?.get(position)?.noti.equals(Constants.SHARE_POST)
+        ){
             NORMAL_ITEM
-        else
+        } else {
             EMPTY_ITEM
-        return R.layout.post_list_item;
+        }
     }
     override fun getItemCount(): Int {
+
         return if (post != null) {
             post!!.size
         } else {
@@ -58,6 +63,8 @@ class PostAdapter  : RecyclerView.Adapter<ViewHolder>() {
             }
        }
     }
+    private fun hasExtraRow() = networkState != null && networkState != NetworkState.LOADED
+
     private fun initLayoutOne(postViewHolder: PostViewHolder, i: Int) {
         val currentStudent = post!![i]
         postViewHolder.postListItemBinding.post = currentStudent
