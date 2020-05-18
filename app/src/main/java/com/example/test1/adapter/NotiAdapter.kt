@@ -18,7 +18,6 @@ class NotiAdapter  : RecyclerView.Adapter<ViewHolder>() {
     private val NORMAL_ITEM = 1
     private var post: ArrayList<Data>? = null
 
-
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
        return if (i == NORMAL_ITEM) {
             val postListItemBinding: PostListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.context),
@@ -29,14 +28,9 @@ class NotiAdapter  : RecyclerView.Adapter<ViewHolder>() {
                     R.layout.item_empty, viewGroup, false)
             PostViewHolderEmpty(itemEmptyBinding)
         }
-
     }
-
     override fun getItemViewType(position: Int): Int {
         return if (LIST_KEY.containsKey(post?.get(position)?.noti)
-//                ||post?.get(position)?.noti.equals(Constants.COMMENT_POST)
-//                ||post?.get(position)?.noti.equals(Constants.COMMENT_COMMENT)
-//                ||post?.get(position)?.noti.equals(Constants.SHARE_POST)
         ){
             NORMAL_ITEM
         } else {
@@ -63,8 +57,6 @@ class NotiAdapter  : RecyclerView.Adapter<ViewHolder>() {
             }
        }
     }
-
-
     private fun initLayoutOne(postViewHolder: PostViewHolder, i: Int) {
         val currentStudent = post!![i]
         postViewHolder.postListItemBinding.post = currentStudent

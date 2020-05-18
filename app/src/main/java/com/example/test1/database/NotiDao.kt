@@ -10,11 +10,16 @@ import com.example.test1.model.Hit
 @Dao
 interface NotiDao{
 
+//    @Query("SELECT * from noti_table")
+//    fun getAllNoti(): DataSource.Factory<Int, Hit>
+
     @Query("SELECT * from noti_table")
-    fun getAllNoti(): LiveData<List<Hit.HitDB>>
+    fun getAllDB(): LiveData<List<Hit>>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertNoti(hitDB: Hit.HitDB)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insert(hits: List<Hit>)
 
+    @Query("DELETE FROM noti_table")
+    suspend fun deleteAll()
 
 }

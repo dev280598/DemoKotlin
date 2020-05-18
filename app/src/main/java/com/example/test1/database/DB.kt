@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import com.example.test1.constant.DataConverter
 import com.example.test1.model.Hit
 
-@Database(entities = [Hit.HitDB::class], version = 1, exportSchema = false)
+@Database(entities = [Hit.HitDB::class], version = 2, exportSchema = false)
 @TypeConverters(DataConverter::class)
 
 abstract class DB : RoomDatabase() {
@@ -24,7 +24,8 @@ abstract class DB : RoomDatabase() {
                         context.applicationContext,
                         DB::class.java,
                         "word_database"
-                ).build()
+                ).fallbackToDestructiveMigration()
+                        .build()
                 INSTANCE = instance
                 instance
             }

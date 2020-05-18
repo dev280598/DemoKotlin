@@ -38,12 +38,12 @@ class Hit {
 
             @PrimaryKey @ColumnInfo(name = "id") val _id: String,
             @ColumnInfo(name = "index") val _index: String,
-            @ColumnInfo(name = "type") val _type: String,
+            @ColumnInfo(name = "type") val _type: String)
 
-            @TypeConverters(DataConverter::class)
-            @ColumnInfo(name = "sort") val sort: List<Double>,
-
-            @TypeConverters(DataConverter::class)
-            @ColumnInfo(name = "source") val source: Source)
+//            @TypeConverters(DataConverter::class)
+//            @ColumnInfo(name = "sort") val sort: List<Double>?,
+//
+//            @TypeConverters(DataConverter::class)
+//            @ColumnInfo(name = "source") val source: Source?)
 
 }
