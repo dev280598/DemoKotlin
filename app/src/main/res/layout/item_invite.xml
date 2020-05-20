@@ -7,7 +7,7 @@
 
         <variable
             name="noti_invite"
-            type="com.example.test1.model.Hit" />
+            type="com.example.test1.model.notify.Hit" />
         <variable
             name="post"
             type="com.example.test1.model.Data"/>

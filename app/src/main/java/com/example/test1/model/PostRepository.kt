@@ -7,6 +7,7 @@ import com.example.test1.Retrofit.APIClient
 import com.example.test1.constant.Util.convertData
 import com.example.test1.database.NotiDao
 import com.example.test1.model.notify.Hit
+import com.example.test1.model.notify.NotifyResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -14,7 +15,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class PostRepository(application: Application,dao: NotiDao)  {
+class PostRepository()  {
 
     private var post = ArrayList<Data>()
     private val mutableLiveData = MutableLiveData<List<Data>>()
@@ -25,8 +26,8 @@ class PostRepository(application: Application,dao: NotiDao)  {
         val userDataService = APIClient.client
         val call = userDataService.post
 
-        call?.enqueue(object : Callback<Post?> {
-            override fun onResponse(call: Call<Post?>, response: Response<Post?>) {
+        call?.enqueue(object : Callback<NotifyResponse?> {
+            override fun onResponse(call: Call<NotifyResponse?>, response: Response<NotifyResponse?>) {
                 val Post = response.body()
                 if (Post != null && Post.hits!!.hits != null) {
 
@@ -39,7 +40,7 @@ class PostRepository(application: Application,dao: NotiDao)  {
 
                 }
             }
-            override fun onFailure(call: Call<Post?>, t: Throwable) {
+            override fun onFailure(call: Call<NotifyResponse?>, t: Throwable) {
                 mutableLiveData.value=null
             }
         })

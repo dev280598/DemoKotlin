@@ -1,7 +1,6 @@
 package com.example.test1.constant
 
 import androidx.room.TypeConverter
-import com.example.test1.model.Source
 import com.example.test1.model.notify._source
 import com.google.gson.Gson
 

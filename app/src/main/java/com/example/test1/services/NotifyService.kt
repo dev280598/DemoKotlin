@@ -1,10 +1,6 @@
 package com.example.test1.services
 
-import com.example.test1.model.Hit
-import com.example.test1.model.PostRepository
 import com.example.test1.model.notify.NotifyResponse
-import io.reactivex.Observer
-import io.reactivex.Single
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Query
