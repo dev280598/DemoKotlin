@@ -54,5 +54,7 @@ class Source {
     @SerializedName("iv105")
     @Expose
     var iv105: String? = null
+    var title: String? = null
+    var checkAccept:Boolean = false
 
 }

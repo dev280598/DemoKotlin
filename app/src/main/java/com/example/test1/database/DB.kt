@@ -6,9 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.test1.constant.DataConverter
-import com.example.test1.model.Hit
+import com.example.test1.model.notify.Hit
 
-@Database(entities = [Hit.HitDB::class], version = 2, exportSchema = false)
+
+@Database(entities = [Hit::class], version = 2, exportSchema = false)
 @TypeConverters(DataConverter::class)
 
 abstract class DB : RoomDatabase() {
@@ -24,7 +25,7 @@ abstract class DB : RoomDatabase() {
                         context.applicationContext,
                         DB::class.java,
                         "word_database"
-                ).fallbackToDestructiveMigration()
+                ).allowMainThreadQueries()
                         .build()
                 INSTANCE = instance
                 instance

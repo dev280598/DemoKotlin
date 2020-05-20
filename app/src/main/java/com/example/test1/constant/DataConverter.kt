@@ -2,16 +2,17 @@ package com.example.test1.constant
 
 import androidx.room.TypeConverter
 import com.example.test1.model.Source
+import com.example.test1.model.notify._source
 import com.google.gson.Gson
 
 
 class DataConverter {
 
     @TypeConverter
-    fun sourceToString(source: Source): String = Gson().toJson(source)
+    fun sourceToString(source: _source): String = Gson().toJson(source)
 
     @TypeConverter
-    fun stringToSource(string: String): Source = Gson().fromJson(string, Source::class.java)
+    fun stringToSource(string: String): _source = Gson().fromJson(string, _source::class.java)
 
     @TypeConverter
     fun sortToString(sort: List<Double>): String? {

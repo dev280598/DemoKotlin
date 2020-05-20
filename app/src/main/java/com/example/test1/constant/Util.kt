@@ -15,7 +15,7 @@ object Util {
         data?.apply {
             forEach { hit ->
                 val user = Data()
-                hit?.run {
+                hit.run {
                     source?.run {
                         user.noti = iv104
                         fi101?.first()?.let { item ->

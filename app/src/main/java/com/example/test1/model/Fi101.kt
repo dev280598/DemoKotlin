@@ -4,7 +4,7 @@ import androidx.databinding.BaseObservable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Fi101 : BaseObservable() {
+class Fi101  {
     @SerializedName("iv109")
     @Expose
     var iv109: String? = null
