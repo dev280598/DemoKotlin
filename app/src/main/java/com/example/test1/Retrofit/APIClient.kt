@@ -8,6 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object APIClient {
     private var retrofit: Retrofit? = null
     private const val BASE_URL = "https://test-es-api.hahalolo.com/"
+
     val client: APIService
         get() {
             if (retrofit == null) {

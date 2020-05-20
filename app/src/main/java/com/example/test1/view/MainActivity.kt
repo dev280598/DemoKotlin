@@ -27,10 +27,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-
         notiAdapter = NotiAdapter()
-        //mainViewModel?.getArticleLiveData()?.observe(this, { pagedList -> notiAdapter.submitList(pagedList) })
-
         recyclerView.adapter = notiAdapter
         allPost
         btn_retry.setOnClickListener {
