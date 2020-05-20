@@ -1,10 +1,14 @@
 package com.example.test1.model.notify
 
 import android.text.Spanned
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.test1.constant.DataConverter
 import com.google.gson.annotations.SerializedName
 
@@ -33,7 +37,21 @@ data class Hit(
     //@field:SerializedName("_score") val _score: Any,
     @ColumnInfo @field:SerializedName("_source") val source: _source,
     @ColumnInfo @field:SerializedName("sort") val sort: List<Double>
+
 )
+//{
+//    companion object {
+//        @JvmStatic
+//        @BindingAdapter("avatar")
+//        fun loadImage(imageView: ImageView, imageURL: String?) {
+//            Glide.with(imageView.context)
+//                    .setDefaultRequestOptions(RequestOptions()
+//                            .circleCrop())
+//                    .load(imageURL)
+//                    .into(imageView)
+//        }
+//    }
+//}
 
 data class Fi102(
 

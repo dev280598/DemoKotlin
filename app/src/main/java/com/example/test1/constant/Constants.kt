@@ -2,7 +2,6 @@ package com.example.test1.constant
 
 class Constants {
 
-
     companion object {
         const val DEFAULT_NETWORK_PAGE_SIZE = 10
         const val KEY_SAVESTATE = "USER"

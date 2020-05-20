@@ -3,7 +3,6 @@ package com.example.test1.constant
 import com.example.test1.constant.Constants.Companion.LIST_KEY
 import com.example.test1.model.Data
 import com.example.test1.model.notify.Hit
-
 import java.util.*
 
 object Util {
@@ -22,7 +21,7 @@ object Util {
                         fi101?.first()?.let { item ->
                             user.img = item.iv103
                             if (LIST_KEY.containsKey(hit.source?.iv104))
-                                user.name = item.iv102 + " " + LIST_KEY[user.noti+""]
+                                user.name = item.iv102 + " " + LIST_KEY[user.noti + ""]
 
                         }
                     }

@@ -8,13 +8,11 @@ import androidx.room.TypeConverters
 import com.example.test1.constant.DataConverter
 import com.example.test1.model.notify.Hit
 
-
 @Database(entities = [Hit::class], version = 2, exportSchema = false)
 @TypeConverters(DataConverter::class)
 
 abstract class DB : RoomDatabase() {
     abstract fun NotiDao(): NotiDao
-
     companion object {
         @Volatile
         private var INSTANCE: DB? = null

@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
     private var mainViewModel: MainViewModel? = null
     private var notiAdapter: NotiAdapter? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val activityMainBinding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -28,6 +27,14 @@ class MainActivity : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         notiAdapter = NotiAdapter()
+
+        mainViewModel?.getArticleLiveData()?.observeForever {
+            notiAdapter?.submitList(it)
+        }
+        mainViewModel?.getNetWorkState()?.observeForever {
+            notiAdapter?.setNetworkState(it)
+        }
+
         recyclerView.adapter = notiAdapter
         allPost
         btn_retry.setOnClickListener {
@@ -43,8 +50,8 @@ class MainActivity : AppCompatActivity() {
                 if(it?.size==null){
                     btn_retry.visibility=View.VISIBLE
                 }else{
-                    notiAdapter!!.setPostList(it as ArrayList<Data>?)
-
+                  notiAdapter!!.setPostList(it as ArrayList<Data>?)
+//                    notiAdapter!!.notifyDataSetChanged()
                 }
             })
         }

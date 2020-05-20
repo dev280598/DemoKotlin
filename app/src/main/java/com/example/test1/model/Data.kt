@@ -23,7 +23,4 @@ class Data {
                     .into(imageView)
         }
     }
-    override fun toString(): String {
-        return "Data(name=$name, img=$img,noti=$noti)"
-    }
 }

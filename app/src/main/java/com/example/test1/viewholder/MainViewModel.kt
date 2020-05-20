@@ -43,6 +43,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 .setFetchExecutor(executor!!)
                 .build()
 
+
     }
     fun getNetWorkState(): LiveData<NetworkState>?{
         return networkState
