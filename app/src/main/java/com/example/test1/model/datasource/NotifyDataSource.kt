@@ -38,7 +38,7 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
 
                     if (it != null) {
                         Log.i("Loading Init", "Size :" + response.body())
-                        callback.onResult(it,null, makeSort(data.lastOrNull()?.sort))
+                        callback.onResult(it,null, makeSort(it.lastOrNull()?.sort))
                     }
 
                 }
@@ -66,7 +66,7 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
                                     it.source.fi101[0].iv102 + LIST_KEY.containsKey(it.source?.iv104)
                     }
                     if (it != null) {
-                        callback.onResult(it, makeSort(data.lastOrNull()?.sort))
+                        callback.onResult(it, makeSort(it.lastOrNull()?.sort))
                         networkState.postValue(NetworkState.LOADED)
                     }
 

@@ -18,7 +18,6 @@ import java.util.*
 class NotiAdapter:  PagedListAdapter<Hit, ViewHolder>(NotiDiff) {
     private val EMPTY_ITEM = 0
     private val NORMAL_ITEM = 1
-   private var post: ArrayList<Hit>? = null
     private var networkState: NetworkState? = null
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
        return if (i == NORMAL_ITEM) {
@@ -32,25 +31,13 @@ class NotiAdapter:  PagedListAdapter<Hit, ViewHolder>(NotiDiff) {
         }
     }
     override fun getItemViewType(position: Int): Int {
-        //return if (hasExtraRow() && position == itemCount - 1) {
-        return if (LIST_KEY.containsKey(post?.get(position)?.source?.iv104)
+
+        return if (LIST_KEY.containsKey(getItem(position)?.source?.iv104)
         ){
             NORMAL_ITEM
         } else {
             EMPTY_ITEM
         }
-    }
-    override fun getItemCount(): Int {
-        return if (post != null){
-            post!!.size
-
-        }else
-            0
-
-    }
-    fun setPostList(post: ArrayList<Hit>?) {
-        this.post = post
-        notifyDataSetChanged()
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
        when (holder.itemViewType) {
@@ -77,15 +64,12 @@ class NotiAdapter:  PagedListAdapter<Hit, ViewHolder>(NotiDiff) {
             notifyItemChanged(itemCount - 1)
         }
     }
-
-
-
     private fun initLayoutOne(postViewHolder: PostViewHolder, i: Int) {
-        val currentStudent = post!![i]
+        val currentStudent = getItem(i)
         postViewHolder.postListItemBinding.post = currentStudent
     }
     private fun initLayoutTwo(postViewHolderEmpty: PostViewHolderEmpty, i: Int) {
-        val currentStudent =post!![i]
+        val currentStudent = getItem(i)
         postViewHolderEmpty.postListItemEmptyBinding.post = currentStudent
     }
     inner class PostViewHolder(val postListItemBinding: PostListItemBinding) : ViewHolder(postListItemBinding.root)

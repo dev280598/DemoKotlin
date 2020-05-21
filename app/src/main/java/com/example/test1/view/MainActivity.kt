@@ -50,17 +50,17 @@ class MainActivity : AppCompatActivity() {
             notiAdapter?.setNetworkState(it)
         }
     }
-    private val allPost: Unit
-        private get() {
-            mainViewModel?.allPost?.observe(this, Observer<List<Hit?>?> {
-                if(it?.size==null){
-                    btn_retry.visibility=View.VISIBLE
-                }else{
-                    Log.d("AAWW","Size : " + it.size)
-                  notiAdapter?.setPostList(it as ArrayList<Hit>?)
-                }
-            })
-        }
+//    private val allPost: Unit
+//        private get() {
+//            mainViewModel?.allPost?.observe(this, Observer<List<Hit?>?> {
+//                if(it?.size==null){
+//                    btn_retry.visibility=View.VISIBLE
+//                }else{
+//                    Log.d("AAWW","Size : " + it.size)
+//                  notiAdapter?.setPostList(it as ArrayList<Hit>?)
+//                }
+//            })
+//        }
   }
 
 
