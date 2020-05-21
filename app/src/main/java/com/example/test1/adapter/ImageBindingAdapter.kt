@@ -1,13 +1,19 @@
-package nguyentrandroid.a.hhll.adapter
+package com.example.test1.adapter
 
+import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.squareup.picasso.Picasso
-import de.hdodenhof.circleimageview.CircleImageView
 
 object ImageBindingAdapter {
     @JvmStatic
-    @BindingAdapter("android:src")
-    fun setImageUrl(view: CircleImageView, url: String?) {
-        Picasso.get().load(url?:"https://media-cdn.hahalolo.com/5d356aacaf327704db8e865f/veRXqwwlnVz8lXIN.png")?.into(view)
-    }
+        @BindingAdapter("avatar")
+        fun loadImage(imageView: ImageView, imageURL: String?) {
+            Glide.with(imageView.context)
+                    .setDefaultRequestOptions(RequestOptions()
+                            .circleCrop())
+                    .load(imageURL)
+                    .into(imageView)
+        }
 }

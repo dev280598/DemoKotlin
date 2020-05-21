@@ -3,7 +3,8 @@
     <data>
         <variable
             name="post"
-            type="com.example.test1.model.Data"/>
+            type="com.example.test1.model.notify.Hit"/>
+
     </data>
     <LinearLayout
         android:id="@+id/viewPostt"

@@ -17,11 +17,10 @@ import kotlin.collections.ArrayList
 
 class PostRepository()  {
 
-    private var post = ArrayList<Data>()
-    private val mutableLiveData = MutableLiveData<List<Data>>()
+    private var post = ArrayList<Hit>()
+    private val mutableLiveData = MutableLiveData<List<Hit>>()
     private var dao: NotiDao? = null
-//
-    fun getMutableLiveData(): MutableLiveData<List<Data>> {
+    fun getMutableLiveData(): MutableLiveData<List<Hit>> {
 
         val userDataService = APIClient.client
         val call = userDataService.post
@@ -31,7 +30,7 @@ class PostRepository()  {
                 val Post = response.body()
                 if (Post != null && Post.hits!!.hits != null) {
 
-                    post = convertData(Post.hits!!.hits) as ArrayList<Data>
+                    post = convertData(Post.hits.hits) as ArrayList<Hit>
                     mutableLiveData.value = post
                     Post.hits?.hits?.forEach {
                         val test = listOf<Hit>()

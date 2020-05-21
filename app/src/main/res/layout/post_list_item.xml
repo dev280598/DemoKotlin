@@ -6,7 +6,8 @@
   <data>
     <variable
         name="post"
-        type="com.example.test1.model.Data"/>
+        type="com.example.test1.model.notify.Hit"/>
+
 
 
 
@@ -33,7 +34,7 @@
             android:layout_marginTop="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:scaleType="fitXY"
-            bind:avatar="@{post.img}"
+            bind:avatar="@{post.source.fi101[0].iv103}"
             bind:layout_constraintBottom_toBottomOf="parent"
             bind:layout_constraintStart_toStartOf="parent"
             bind:layout_constraintTop_toTopOf="parent"
@@ -47,7 +48,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:padding="4dp"
-            android:text="@{post.name}"
+            android:text="@{post.source.title}"
             android:textSize="16sp"
             bind:layout_constraintEnd_toEndOf="parent"
             bind:layout_constraintStart_toEndOf="@+id/img"

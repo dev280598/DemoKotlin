@@ -9,7 +9,6 @@ import androidx.paging.PagedList
 import com.example.test1.constant.Constants.Companion.DEFAULT_NETWORK_PAGE_SIZE
 import com.example.test1.database.DB
 import com.example.test1.database.NotiDao
-import com.example.test1.model.Data
 import com.example.test1.model.PostRepository
 import com.example.test1.model.datasource.NotifyDataSource
 import com.example.test1.model.datasource.NotifyDataSourceFactory
@@ -27,7 +26,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private var articleLiveData: LiveData<PagedList<Hit>>? = null
 
 
-    val allPost: LiveData<List<Data>>
+    val allPost: LiveData<List<Hit>>
         get() = postRepository.getMutableLiveData()
 
     init {
@@ -43,7 +42,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 .setFetchExecutor(executor!!)
                 .build()
 
-
     }
     fun getNetWorkState(): LiveData<NetworkState>?{
         return networkState
@@ -51,7 +49,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun getArticleLiveData(): LiveData<PagedList<Hit>>? {
         return articleLiveData
     }
-    fun getDataDD(): LiveData<List<Hit>> = dao.getAllDB()
+    fun getDataDB(): LiveData<List<Hit>> = dao.getAllDB()
 }
 
 

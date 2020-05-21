@@ -39,19 +39,7 @@ data class Hit(
     @ColumnInfo @field:SerializedName("sort") val sort: List<Double>
 
 )
-//{
-//    companion object {
-//        @JvmStatic
-//        @BindingAdapter("avatar")
-//        fun loadImage(imageView: ImageView, imageURL: String?) {
-//            Glide.with(imageView.context)
-//                    .setDefaultRequestOptions(RequestOptions()
-//                            .circleCrop())
-//                    .load(imageURL)
-//                    .into(imageView)
-//        }
-//    }
-//}
+
 
 data class Fi102(
 

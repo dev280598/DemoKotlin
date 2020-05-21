@@ -6,7 +6,6 @@ import androidx.paging.PageKeyedDataSource
 import com.example.test1.Retrofit.APIClient
 import com.example.test1.constant.Constants.Companion.LIST_KEY
 import com.example.test1.database.NotiDao
-import com.example.test1.model.Data
 import com.example.test1.model.notify.Hit
 import com.example.test1.model.notify.NotifyResponse
 import com.example.test1.utils.NetworkState
@@ -17,7 +16,7 @@ import retrofit2.Response
 class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
     val networkState = MutableLiveData<NetworkState>()
     val initialLoad = MutableLiveData<NetworkState>()
-    private val mutableLiveData = MutableLiveData<List<Data>>()
+    private val mutableLiveData = MutableLiveData<List<Hit>>()
 
     override fun loadInitial(params: LoadInitialParams<String>, callback: LoadInitialCallback<String, Hit>) {
 
