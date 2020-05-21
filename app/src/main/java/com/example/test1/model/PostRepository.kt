@@ -28,15 +28,14 @@ class PostRepository()  {
         call?.enqueue(object : Callback<NotifyResponse?> {
             override fun onResponse(call: Call<NotifyResponse?>, response: Response<NotifyResponse?>) {
                 val Post = response.body()
-                if (Post != null && Post.hits!!.hits != null) {
+                if (Post != null) {
 
                     post = convertData(Post.hits.hits) as ArrayList<Hit>
                     mutableLiveData.value = post
-                    Post.hits?.hits?.forEach {
+                    Post.hits.hits.forEach {
                         val test = listOf<Hit>()
                         dao?.insert(test)
                     }
-
                 }
             }
             override fun onFailure(call: Call<NotifyResponse?>, t: Throwable) {

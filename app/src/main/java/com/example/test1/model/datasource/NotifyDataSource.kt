@@ -16,31 +16,25 @@ import retrofit2.Response
 class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
     val networkState = MutableLiveData<NetworkState>()
     val initialLoad = MutableLiveData<NetworkState>()
-    //private val mutableLiveData = MutableLiveData<List<Hit>>()
+    var userDataService =APIClient.client
 
     override fun loadInitial(params: LoadInitialParams<String>, callback: LoadInitialCallback<String, Hit>) {
-
         networkState.postValue(NetworkState.LOADING)
         initialLoad.postValue(NetworkState.LOADING)
-        val userDataService = APIClient.client
-        val call = userDataService.post
 
+        val call = userDataService.post
         call?.enqueue(object : Callback<NotifyResponse?> {
             override fun onResponse(call: Call<NotifyResponse?>, response: Response<NotifyResponse?>) {
-                var data = listOf<Hit>()
                 response.body()?.hits?.hits.let {
-                    data.forEach {
-                        if (LIST_KEY.containsKey(it.source?.iv104))
+                    it?.forEach {
+                        if (LIST_KEY.containsKey(it.source.iv104))
                             it.source.title =
-                                    it.source.fi101[0].iv102 + LIST_KEY.containsKey(it.source?.iv104)
-
+                                    it.source.fi101[0].iv102 + " " + LIST_KEY[it.source.iv104 + ""]
                     }
-
                     if (it != null) {
                         Log.i("Loading Init", "Size :" + response.body())
                         callback.onResult(it,null, makeSort(it.lastOrNull()?.sort))
                     }
-
                 }
             }
             override fun onFailure(call: Call<NotifyResponse?>, t: Throwable) {
@@ -49,27 +43,23 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
             }
         })
     }
-
     override fun loadAfter(params: LoadParams<String>, callback: LoadCallback<String, Hit>) {
-        Log.i("Loading After", "Loading After " + params.key + " Count " + params.requestedLoadSize);
+        Log.i("Loading After", "Loading After " + params.key + " Count " + params.requestedLoadSize)
         networkState.postValue(NetworkState.LOADING)
-        val userDataService = APIClient.client
         val call = userDataService.post
 
         call?.enqueue(object : Callback<NotifyResponse?> {
             override fun onResponse(call: Call<NotifyResponse?>, response: Response<NotifyResponse?>) {
                 response.body()?.hits?.hits.let {
-                    var data = listOf<Hit>()
-                    data.forEach {
-                        if (LIST_KEY.containsKey(it.source?.iv104))
+                    it?.forEach {
+                        if (LIST_KEY.containsKey(it.source.iv104))
                             it.source.title =
-                                    it.source.fi101[0].iv102 + LIST_KEY.containsKey(it.source?.iv104)
+                                    it.source.fi101[0].iv102 + " " + LIST_KEY[it.source.iv104 + ""]
                     }
                     if (it != null) {
                         callback.onResult(it, makeSort(it.lastOrNull()?.sort))
                         networkState.postValue(NetworkState.LOADED)
                     }
-
                 }
             }
             override fun onFailure(call: Call<NotifyResponse?>, t: Throwable) {
@@ -86,10 +76,10 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
                 for (i in objects.indices) {
                     when (val o = objects[i]) {
                         is Long -> {
-                            stringBuilder.append((o as Long).toLong())
+                            stringBuilder.append((o ).toLong())
                         }
                         is Double -> {
-                            stringBuilder.append((o as Double).toDouble())
+                            stringBuilder.append((o ).toDouble())
                         }
                         is String -> {
                             stringBuilder.append("\"")
