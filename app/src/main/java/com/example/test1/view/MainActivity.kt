@@ -16,6 +16,7 @@ import com.example.test1.databinding.ActivityMainBinding
 import com.example.test1.model.notify.Hit
 import com.example.test1.viewholder.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,10 +34,10 @@ class MainActivity : AppCompatActivity() {
 
         observeData()
         recyclerView.adapter = notiAdapter
-        allPost
+        //allPost
         btn_retry.setOnClickListener {
             mainViewModel?.getDataDB()?.observeForever {
-                allPost
+               // allPost
                 btn_retry.visibility = View.GONE
             }
         }
@@ -60,7 +61,7 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
-    }
+  }
 
 
 

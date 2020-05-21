@@ -14,12 +14,11 @@ import com.example.test1.databinding.PostListItemBinding
 import com.example.test1.model.notify.Hit
 import com.example.test1.utils.NetworkState
 import java.util.*
-import kotlin.collections.ArrayList
 
 class NotiAdapter:  PagedListAdapter<Hit, ViewHolder>(NotiDiff) {
     private val EMPTY_ITEM = 0
     private val NORMAL_ITEM = 1
-    private var post: ArrayList<Hit>? = null
+   private var post: ArrayList<Hit>? = null
     private var networkState: NetworkState? = null
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
        return if (i == NORMAL_ITEM) {
@@ -33,6 +32,7 @@ class NotiAdapter:  PagedListAdapter<Hit, ViewHolder>(NotiDiff) {
         }
     }
     override fun getItemViewType(position: Int): Int {
+        //return if (hasExtraRow() && position == itemCount - 1) {
         return if (LIST_KEY.containsKey(post?.get(position)?.source?.iv104)
         ){
             NORMAL_ITEM
@@ -60,7 +60,7 @@ class NotiAdapter:  PagedListAdapter<Hit, ViewHolder>(NotiDiff) {
             }
        }
     }
-    private fun hasExtraRow() = networkState != null && networkState != NetworkState.LOADED
+  private fun hasExtraRow() = networkState != null && networkState != NetworkState.LOADED
 
     fun setNetworkState(newNetworkState: NetworkState?) {
         val previousState = this.networkState
@@ -90,7 +90,9 @@ class NotiAdapter:  PagedListAdapter<Hit, ViewHolder>(NotiDiff) {
     }
     inner class PostViewHolder(val postListItemBinding: PostListItemBinding) : ViewHolder(postListItemBinding.root)
     inner class PostViewHolderEmpty(val postListItemEmptyBinding: ItemEmptyBinding) : ViewHolder(postListItemEmptyBinding.root)
+
 }
+
 object NotiDiff : DiffUtil.ItemCallback<Hit>() {
     override fun areItemsTheSame(oldItem: Hit, newItem: Hit): Boolean {
         return oldItem._id == newItem._id
@@ -99,7 +101,12 @@ object NotiDiff : DiffUtil.ItemCallback<Hit>() {
         return oldItem == newItem
     }
 
+
 }
+
+
+
+
 
 
 

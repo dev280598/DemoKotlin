@@ -16,7 +16,7 @@ import retrofit2.Response
 class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
     val networkState = MutableLiveData<NetworkState>()
     val initialLoad = MutableLiveData<NetworkState>()
-    private val mutableLiveData = MutableLiveData<List<Hit>>()
+    //private val mutableLiveData = MutableLiveData<List<Hit>>()
 
     override fun loadInitial(params: LoadInitialParams<String>, callback: LoadInitialCallback<String, Hit>) {
 
@@ -28,42 +28,52 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
         call?.enqueue(object : Callback<NotifyResponse?> {
             override fun onResponse(call: Call<NotifyResponse?>, response: Response<NotifyResponse?>) {
                 var data = listOf<Hit>()
-                data.forEach {
-                    if (LIST_KEY.containsKey(it.source?.iv104))
-                        it.source.title =
-                                it.source.fi101[0].iv102 + LIST_KEY.containsKey(it.source?.iv104)
+                response.body()?.hits?.hits.let {
+                    data.forEach {
+                        if (LIST_KEY.containsKey(it.source?.iv104))
+                            it.source.title =
+                                    it.source.fi101[0].iv102 + LIST_KEY.containsKey(it.source?.iv104)
+
+                    }
+
+                    if (it != null) {
+                        Log.i("Loading Init", "Size :" + response.body())
+                        callback.onResult(it,null, makeSort(data.lastOrNull()?.sort))
+                    }
 
                 }
-                callback.onResult(data,null, makeSort(data.lastOrNull()?.sort))
-                Log.i("AAAAA",   " Count " + params.requestedLoadSize + "Item :" + response.body())
             }
             override fun onFailure(call: Call<NotifyResponse?>, t: Throwable) {
                 Log.d("+++","ERROR : " + t.message)
-                mutableLiveData.value=null
+
             }
         })
     }
 
     override fun loadAfter(params: LoadParams<String>, callback: LoadCallback<String, Hit>) {
-        Log.i("AAAAAA", "Loading Rang " + params.key + " Count " + params.requestedLoadSize);
+        Log.i("Loading After", "Loading After " + params.key + " Count " + params.requestedLoadSize);
         networkState.postValue(NetworkState.LOADING)
         val userDataService = APIClient.client
         val call = userDataService.post
 
         call?.enqueue(object : Callback<NotifyResponse?> {
             override fun onResponse(call: Call<NotifyResponse?>, response: Response<NotifyResponse?>) {
-                var data = listOf<Hit>()
-                data.forEach {
-                    if (LIST_KEY.containsKey(it.source?.iv104))
-                        it.source.title =
-                                it.source.fi101[0].iv102 + LIST_KEY.containsKey(it.source?.iv104)
+                response.body()?.hits?.hits.let {
+                    var data = listOf<Hit>()
+                    data.forEach {
+                        if (LIST_KEY.containsKey(it.source?.iv104))
+                            it.source.title =
+                                    it.source.fi101[0].iv102 + LIST_KEY.containsKey(it.source?.iv104)
+                    }
+                    if (it != null) {
+                        callback.onResult(it, makeSort(data.lastOrNull()?.sort))
+                        networkState.postValue(NetworkState.LOADED)
+                    }
+
                 }
-                callback.onResult(data, makeSort(data.lastOrNull()?.sort))
-                networkState.postValue(NetworkState.LOADED)
             }
             override fun onFailure(call: Call<NotifyResponse?>, t: Throwable) {
-                mutableLiveData.value=null
-                Log.d("SSS","ERROR : " + t.message)
+                Log.d("Error","ERROR : " + t.message)
             }
         })
     }

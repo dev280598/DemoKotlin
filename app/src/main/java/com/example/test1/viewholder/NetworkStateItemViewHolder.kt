@@ -12,7 +12,7 @@ import com.example.test1.interfaces.onclickCallBack
 import com.example.test1.utils.NetworkState
 import com.example.test1.utils.Status
 
-class NetworkStateItemViewHolder(view: View, private val adapterOnclick: onclickCallBack) :
+class NetworkStateItemViewHolder(view: View) :
     RecyclerView.ViewHolder(view) {
     private val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
     private val retry = view.findViewById<Button>(R.id.retry_button)
@@ -23,7 +23,7 @@ class NetworkStateItemViewHolder(view: View, private val adapterOnclick: onclick
         errorMsg.visibility = toVisibility(networkState?.msg != null)
         errorMsg.text = networkState?.msg
         retry.setOnClickListener {
-            adapterOnclick.onClick(it, pos)
+           // adapterOnclick.onClick(it, pos)
         }
     }
 
@@ -31,7 +31,7 @@ class NetworkStateItemViewHolder(view: View, private val adapterOnclick: onclick
         fun create(parent: ViewGroup, adapterOnclick: onclickCallBack): NetworkStateItemViewHolder {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.network_state_layout, parent, false)
-            return NetworkStateItemViewHolder(view, adapterOnclick)
+            return NetworkStateItemViewHolder(view)
         }
 
         fun toVisibility(constraint: Boolean): Int {
