@@ -1,5 +1,8 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
+            <variable
+                name="post"
+                type="com.example.test1.model.Hit"/>
     </data>
 
     <LinearLayout

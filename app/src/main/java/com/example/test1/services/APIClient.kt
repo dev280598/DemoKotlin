@@ -1,4 +1,4 @@
-package com.example.test1.Retrofit
+package com.example.test1.services
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.Retrofit

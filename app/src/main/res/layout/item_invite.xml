@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="post"
+            type="com.example.test1.model.Hit" />
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitXY"
+            avatar="@{post.source.fi101[0].iv103}"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"/>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@id/img"
+            android:text="@{post.source.title}"
+            android:textSize="15sp" />
+        <TextView
+            android:visibility="invisible"
+            android:id="@+id/tv_sttAccept"
+            android:textSize="15sp"
+            android:layout_toRightOf="@id/img"
+            android:layout_above="@id/img_space"
+            android:text="call api update stt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_above="@id/img_space"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/bt_accept"
+                android:layout_centerHorizontal="true"
+                android:textSize="10sp"
+                android:text="Đồng ý"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"/>
+            <Button
+                android:id="@+id/bt_cancel"
+                android:layout_toRightOf="@id/bt_accept"
+                android:layout_centerHorizontal="true"
+                android:textSize="10sp"
+                android:text="Từ chối"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"/>
+        </LinearLayout>
+
+
+
+        <ImageView
+            android:id="@+id/img_space"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="#C6C6C6" />
+
+    </RelativeLayout>
+</layout>

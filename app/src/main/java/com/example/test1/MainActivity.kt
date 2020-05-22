@@ -1,22 +1,24 @@
-package com.example.test1.view
+package com.example.test1
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.test1.R
 import com.example.test1.adapter.NotiAdapter
 import com.example.test1.databinding.ActivityMainBinding
-import com.example.test1.model.notify.Hit
+import com.example.test1.model.Hit
+import com.example.test1.services.onclickCallBack
 import com.example.test1.viewholder.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),
+        onclickCallBack {
     private var mainViewModel: MainViewModel? = null
     private var notiAdapter: NotiAdapter? = null
 
@@ -27,36 +29,44 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        notiAdapter = NotiAdapter()
-
+        notiAdapter = NotiAdapter(this)
         allPost
         recyclerView.adapter = notiAdapter
-        btn_retry.setOnClickListener {
-            mainViewModel?.getDataDB()?.observeForever {
-                allPost
-                btn_retry.visibility = View.GONE
-            }
-        }
     }
     fun observeData(){
         mainViewModel?.getArticleLiveData()?.observeForever {
             notiAdapter?.submitList(it)
         }
-        mainViewModel?.getNetWorkState()?.observeForever {
+        mainViewModel?.getNetWorkState()?.networkState?.observeForever {
+            Log.d("AAAAA","AWQ"+it.status)
             notiAdapter?.setNetworkState(it)
         }
+
     }
     private val allPost: Unit
          get() {
             mainViewModel?.allPost?.observe(this, Observer<List<Hit?>?> {
-                if(it?.size==null){
-                    btn_retry.visibility=View.VISIBLE
-                }else{
                     observeData()
-                }
             })
         }
-  }
+    override fun onClick(view: View, pos: Int) {
+        when (view.id) {
+            R.id.retry_button -> {
+//               mainViewModel?.retry()
+
+            }
+            R.id.bt_accept -> {
+                notiAdapter?.currentList?.get(pos)?.source?.checkAccept = true
+                notiAdapter?.notifyItemChanged(pos)
+            }
+            R.id.bt_cancel -> {
+                notiAdapter?.currentList?.get(pos)?.source?.checkAccept = true
+                notiAdapter?.notifyItemChanged(pos)
+            }
+
+        }
+    }
+}
 
 
 

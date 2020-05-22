@@ -1,10 +1,10 @@
-package com.example.test1.model.datasource
+package com.example.test1.datasource
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
-import com.example.test1.model.notify.Hit
+import com.example.test1.model.Hit
 
-class NotifyDataSourceFactory : DataSource.Factory<String,Hit?>() {
+class NotifyDataSourceFactory : DataSource.Factory<String, Hit?>() {
     var sourceLiveData = MutableLiveData<NotifyDataSource>()
     override fun create(): DataSource<String, Hit?> {
         val source = NotifyDataSource()

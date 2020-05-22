@@ -3,7 +3,7 @@
     <data>
         <variable
             name="post"
-            type="com.example.test1.model.notify.Hit"/>
+            type="com.example.test1.model.Hit"/>
 
     </data>
     <LinearLayout

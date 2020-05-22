@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.test1.constant.DataConverter
-import com.example.test1.model.notify.Hit
+import com.example.test1.model.Hit
 
 @Database(entities = [Hit::class], version = 2, exportSchema = false)
 @TypeConverters(DataConverter::class)
