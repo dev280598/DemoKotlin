@@ -16,9 +16,9 @@ import java.util.concurrent.Executors
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
-    private val postRepository: PostRepository
+    private val postRepository: NotiRepository
     private val dao: NotiDao
-    private var executor: Executor? = Executors.newFixedThreadPool(1)
+    private var executor: Executor? = null
     private var networkState: LiveData<NetworkState>
     private var articleLiveData: LiveData<PagedList<Hit>>? = null
     val factoty = NotifyDataSourceFactory()
@@ -27,7 +27,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         dao = DB.getDatabase(application).NotiDao()
-        postRepository = PostRepository()
+        postRepository = NotiRepository()
 
         executor = Executors.newFixedThreadPool(5)
 

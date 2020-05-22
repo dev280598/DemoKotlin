@@ -11,7 +11,7 @@ import retrofit2.Response
 import kotlin.collections.ArrayList
 
 
-class PostRepository()  {
+class NotiRepository()  {
 
     private var post = ArrayList<Hit>()
     private val mutableLiveData = MutableLiveData<List<Hit>>()

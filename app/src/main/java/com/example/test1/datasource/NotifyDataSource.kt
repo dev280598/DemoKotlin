@@ -9,17 +9,19 @@ import com.example.test1.database.NotiDao
 import com.example.test1.model.Hit
 import com.example.test1.model.NotifyResponse
 import com.example.test1.services.APIClient
+import com.example.test1.services.onclickCallBack
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 
 class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
     val networkState = MutableLiveData<NetworkState>()
     val initialLoad = MutableLiveData<NetworkState>()
     var userDataService = APIClient.client
-    private var retryExecutor: Executor? = null
+    private var retryExecutor: Executor? = Executors.newFixedThreadPool(1)
     private var retry: (() -> Any)? = null
     private var dao: NotiDao? =null
     fun retryAllFailed() {
@@ -60,11 +62,11 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
                     }
                 }
                 override fun onFailure(call: Call<NotifyResponse?>, t: Throwable) {
-                    retry = {
-                loadInitial(params,callback)
-            }
-                    val errorMessage =  "unknown error" + t.message
+                    val errorMessage =  "unknown error" + " " + t.message
                     networkState.postValue(NetworkState(NetworkState.Status.FAILED, errorMessage))
+                    retry = {
+                        loadInitial(params,callback)
+                    }
                 }
             })
         }catch (ioException: IOException){
@@ -96,10 +98,11 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
 
             }
             override fun onFailure(call: Call<NotifyResponse?>, t: Throwable) {
-                retry = {
-                loadAfter(params,callback)
-            }
+
                 networkState.postValue(NetworkState(NetworkState.Status.FAILED, t.message))
+                retry = {
+                    loadAfter(params,callback)
+                }
             }
         })
     }

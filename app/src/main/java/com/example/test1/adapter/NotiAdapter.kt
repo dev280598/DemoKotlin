@@ -9,17 +9,14 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.test1.R
-import com.example.test1.constant.Constants
 import com.example.test1.constant.Constants.Companion.LIST_KEY
 import com.example.test1.databinding.ItemEmptyBinding
 import com.example.test1.databinding.PostListItemBinding
 import com.example.test1.model.Hit
 import com.example.test1.constant.NetworkState
-import com.example.test1.databinding.ItemInviteBinding
-import com.example.test1.databinding.NetworkStateLayoutBinding
 import com.example.test1.services.onclickCallBack
 import com.example.test1.viewholder.NetworkStateItemViewHolder
-import com.example.test1.viewholder.ViewHolderItemNotifyInvite
+import com.example.test1.viewholder.ViewHolderItemNotiInvite
 
 class NotiAdapter(val adapterOnclick: onclickCallBack):  PagedListAdapter<Hit, ViewHolder>(NotiDiff) {
     private var networkState: NetworkState? = null
@@ -37,7 +34,7 @@ class NotiAdapter(val adapterOnclick: onclickCallBack):  PagedListAdapter<Hit, V
 
             R.layout.item_empty ->PostViewHolderEmpty(itemEmptyBinding)
             R.layout.network_state_layout -> NetworkStateItemViewHolder.create(viewGroup, adapterOnclick)
-            R.layout.item_invite -> ViewHolderItemNotifyInvite.create(
+            R.layout.item_invite -> ViewHolderItemNotiInvite.create(
                 bindingItemNotifyInvite,
                 adapterOnclick
             )
@@ -63,7 +60,7 @@ class NotiAdapter(val adapterOnclick: onclickCallBack):  PagedListAdapter<Hit, V
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (getItemViewType(position)) {
-            R.layout.item_invite -> (holder as ViewHolderItemNotifyInvite).bindTo(getItem(position), position)
+            R.layout.item_invite -> (holder as ViewHolderItemNotiInvite).bindTo(getItem(position), position)
             R.layout.post_list_item -> initLayoutOne(holder as PostViewHolder, position)
             R.layout.network_state_layout -> (holder as NetworkStateItemViewHolder).bindTo(
                     networkState, position

@@ -11,7 +11,7 @@ import com.example.test1.services.onclickCallBack
 import kotlinx.android.synthetic.main.item_invite.view.*
 
 
-class ViewHolderItemNotifyInvite(
+class ViewHolderItemNotiInvite(
     val binding: ViewDataBinding,
     private val adapterOnclick: onclickCallBack
 ) : RecyclerView.ViewHolder(binding.root) {
@@ -41,8 +41,8 @@ class ViewHolderItemNotifyInvite(
         fun create(
             binding: ViewDataBinding,
             adapterOnclick: onclickCallBack
-        ): ViewHolderItemNotifyInvite {
-            return ViewHolderItemNotifyInvite(binding, adapterOnclick)
+        ): ViewHolderItemNotiInvite {
+            return ViewHolderItemNotiInvite(binding, adapterOnclick)
         }
     }
 }

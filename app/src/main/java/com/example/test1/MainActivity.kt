@@ -3,12 +3,14 @@ package com.example.test1
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.test1.adapter.NotiAdapter
+import com.example.test1.constant.NetworkState
 import com.example.test1.databinding.ActivityMainBinding
 import com.example.test1.model.Hit
 import com.example.test1.services.onclickCallBack
