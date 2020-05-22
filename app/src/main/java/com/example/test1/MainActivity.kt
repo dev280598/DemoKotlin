@@ -38,10 +38,8 @@ class MainActivity : AppCompatActivity(),
             notiAdapter?.submitList(it)
         }
         mainViewModel?.getNetWorkState()?.networkState?.observeForever {
-            Log.d("AAAAA","AWQ"+it.status)
             notiAdapter?.setNetworkState(it)
         }
-
     }
     private val allPost: Unit
          get() {
@@ -52,8 +50,7 @@ class MainActivity : AppCompatActivity(),
     override fun onClick(view: View, pos: Int) {
         when (view.id) {
             R.id.retry_button -> {
-//               mainViewModel?.retry()
-
+                mainViewModel?.getNetWorkState()?.retry?.invoke()
             }
             R.id.bt_accept -> {
                 notiAdapter?.currentList?.get(pos)?.source?.checkAccept = true

@@ -18,7 +18,7 @@ import java.util.concurrent.Executors
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val postRepository: PostRepository
     private val dao: NotiDao
-    private var executor: Executor? = null
+    private var executor: Executor? = Executors.newFixedThreadPool(1)
     private var networkState: LiveData<NetworkState>
     private var articleLiveData: LiveData<PagedList<Hit>>? = null
     val factoty = NotifyDataSourceFactory()
@@ -55,11 +55,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 refreshState = networkState
         )
     }
-
-//    fun retry(){
-//
-//        retry?.invoke()
-//    }
     fun getArticleLiveData(): LiveData<PagedList<Hit>>? {
         return articleLiveData
     }

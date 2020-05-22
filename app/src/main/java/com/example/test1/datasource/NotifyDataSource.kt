@@ -60,18 +60,15 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
                     }
                 }
                 override fun onFailure(call: Call<NotifyResponse?>, t: Throwable) {
+                    retry = {
+                loadInitial(params,callback)
+            }
                     val errorMessage =  "unknown error" + t.message
                     networkState.postValue(NetworkState(NetworkState.Status.FAILED, errorMessage))
-                    //networkState.postValue(NetworkState(NetworkState.Status.FAILED, t.message))
                 }
             })
         }catch (ioException: IOException){
-            retry = {
-                loadInitial(params,callback)
-            }
-           // val error = NetworkState.error(ioException.message ?: "Unknown Error")
-//            networkState.postValue(error)
-//            initialLoad.postValue(error)
+
         }
     }
     override fun loadAfter(params: LoadParams<String>, callback: LoadCallback<String, Hit>) {
@@ -99,7 +96,9 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
 
             }
             override fun onFailure(call: Call<NotifyResponse?>, t: Throwable) {
-
+                retry = {
+                loadAfter(params,callback)
+            }
                 networkState.postValue(NetworkState(NetworkState.Status.FAILED, t.message))
             }
         })
