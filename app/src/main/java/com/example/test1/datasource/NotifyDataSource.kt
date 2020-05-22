@@ -62,7 +62,7 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
                     }
                 }
                 override fun onFailure(call: Call<NotifyResponse?>, t: Throwable) {
-                    val errorMessage =  "unknown error" + " " + t.message
+                    val errorMessage =  " Caused by:" + " " + t.message
                     networkState.postValue(NetworkState(NetworkState.Status.FAILED, errorMessage))
                     retry = {
                         loadInitial(params,callback)

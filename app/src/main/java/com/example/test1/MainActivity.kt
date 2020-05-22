@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity(),
         onclickCallBack {
     private var mainViewModel: MainViewModel? = null
     private var notiAdapter: NotiAdapter? = null
+    private var networkState : NetworkState? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
