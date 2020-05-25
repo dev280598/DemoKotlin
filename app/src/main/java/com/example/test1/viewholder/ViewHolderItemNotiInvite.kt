@@ -16,7 +16,7 @@ class ViewHolderItemNotiInvite(
     private val adapterOnclick: onclickCallBack
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bindTo(data: Hit?, position: Int) {
+    fun bindTo(data: Hit, position: Int) {
         binding.setVariable(BR.post,data)
         binding.executePendingBindings()
         data?.source?.checkAccept?.let {

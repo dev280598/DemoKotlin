@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.example.test1.constant.DataConverter
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 
 data class NotifyResponse(
@@ -14,18 +15,18 @@ data class NotifyResponse(
         @field:SerializedName("timed_out") val timed_out: Boolean,
         @field:SerializedName("_shards") val _shards: _shards,
         @field:SerializedName("hits") val hits: Hits
-)
+): Serializable
 
 data class Hits(
 
     @field:SerializedName("total") val total: Int,
     @field:SerializedName("max_score") val max_score: String,
     @field:SerializedName("hits") val hits: List<Hit>?
-)
+): Serializable
 
 @Entity(tableName = "noti_table")
 @TypeConverters(DataConverter::class)
-data class Hit(
+data class Hit (
         @ColumnInfo @field:SerializedName("_index") val _index: String,
         @ColumnInfo @field:SerializedName("_type") val _type: String,
         @PrimaryKey @ColumnInfo @field:SerializedName("_id") val _id: String,
@@ -33,7 +34,7 @@ data class Hit(
         @ColumnInfo @field:SerializedName("_source") val source: _source,
         @ColumnInfo @field:SerializedName("sort") val sort: List<Double>
 
-)
+): Serializable
 
 
 data class Fi102(
@@ -42,7 +43,7 @@ data class Fi102(
     @field:SerializedName("targetid") val targetid: String,
     @field:SerializedName("iv102") val iv102: String,
     @field:SerializedName("iv103") val iv103: String
-)
+): Serializable
 
 data class Fi101(
 
@@ -50,7 +51,7 @@ data class Fi101(
     @field:SerializedName("targetid") val targetid: String,
     @field:SerializedName("iv102") val iv102: String,
     @field:SerializedName("iv103") val iv103: String
-)
+): Serializable
 
 data class _source(
         @field:SerializedName("fi101") val fi101: List<Fi101>,
@@ -67,7 +68,7 @@ data class _source(
         @field:SerializedName("clicked") val clicked: Int,
         var title: String?,
         var checkAccept:Boolean = false
-)
+): Serializable
 
 data class _shards(
 
@@ -75,4 +76,4 @@ data class _shards(
     @field:SerializedName("successful") val successful: Int,
     @field:SerializedName("skipped") val skipped: Int,
     @field:SerializedName("failed") val failed: Int
-)
+): Serializable

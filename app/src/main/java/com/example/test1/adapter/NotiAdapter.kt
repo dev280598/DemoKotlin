@@ -1,6 +1,7 @@
 package com.example.test1.adapter
 
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -16,13 +17,18 @@ import com.example.test1.model.Hit
 import com.example.test1.constant.NetworkState
 import com.example.test1.services.onclickCallBack
 import com.example.test1.viewholder.NetworkStateItemViewHolder
+import com.example.test1.viewholder.NotifyListingItemViewHolder
 import com.example.test1.viewholder.ViewHolderItemNotiInvite
+import kotlin.coroutines.coroutineContext
 
 class NotiAdapter(val adapterOnclick: onclickCallBack):  PagedListAdapter<Hit, ViewHolder>(NotiDiff) {
+
+
     private var networkState: NetworkState? = null
 
+
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
-        val postListItemBinding: PostListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.context),
+        val postListItemBinding: ViewDataBinding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.context),
                 R.layout.post_list_item, viewGroup, false)
         val itemEmptyBinding: ItemEmptyBinding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.context),
                 R.layout.item_empty, viewGroup, false)
@@ -30,7 +36,7 @@ class NotiAdapter(val adapterOnclick: onclickCallBack):  PagedListAdapter<Hit, V
                 DataBindingUtil.inflate(LayoutInflater.from(viewGroup.context),
                         R.layout.item_invite, viewGroup, false)
         return when (i) {
-            R.layout.post_list_item -> PostViewHolder(postListItemBinding)
+            R.layout.post_list_item -> NotifyListingItemViewHolder.create(postListItemBinding, adapterOnclick)
 
             R.layout.item_empty ->PostViewHolderEmpty(itemEmptyBinding)
             R.layout.network_state_layout -> NetworkStateItemViewHolder.create(viewGroup, adapterOnclick)
@@ -60,11 +66,10 @@ class NotiAdapter(val adapterOnclick: onclickCallBack):  PagedListAdapter<Hit, V
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         when (getItemViewType(position)) {
-            R.layout.item_invite -> (holder as ViewHolderItemNotiInvite).bindTo(getItem(position), position)
-            R.layout.post_list_item -> initLayoutOne(holder as PostViewHolder, position)
+            R.layout.item_invite -> (holder as ViewHolderItemNotiInvite).bindTo(getItem(position)!!, position)
+            R.layout.post_list_item -> (holder as NotifyListingItemViewHolder).bindTo(getItem(position)!!)
             R.layout.network_state_layout -> (holder as NetworkStateItemViewHolder).bindTo(
-                    networkState, position
-            )
+                    networkState, position)
             R.layout.item_empty-> initLayoutTwo(holder as PostViewHolderEmpty, position)
         }
     }
@@ -85,16 +90,16 @@ class NotiAdapter(val adapterOnclick: onclickCallBack):  PagedListAdapter<Hit, V
             notifyItemChanged(itemCount - 1)
         }
     }
-    private fun initLayoutOne(postViewHolder: PostViewHolder, i: Int) {
-        val currentStudent = getItem(i)
-        postViewHolder.postListItemBinding.post = currentStudent
-    }
+//    private fun initLayoutOne(postViewHolder: PostViewHolder, i: Int) {
+//        val currentStudent = getItem(i)
+//        postViewHolder.postListItemBinding.post = currentStudent
+//    }
     private fun initLayoutTwo(postViewHolderEmpty: PostViewHolderEmpty, i: Int) {
         val currentStudent = getItem(i)
         postViewHolderEmpty.postListItemEmptyBinding.post = currentStudent
     }
 
-    inner class PostViewHolder(val postListItemBinding: PostListItemBinding) : ViewHolder(postListItemBinding.root)
+   // inner class PostViewHolder(val postListItemBinding: PostListItemBinding) : ViewHolder(postListItemBinding.root)
     inner class PostViewHolderEmpty(val postListItemEmptyBinding: ItemEmptyBinding) : ViewHolder(postListItemEmptyBinding.root)
 
 }
@@ -105,8 +110,6 @@ object NotiDiff : DiffUtil.ItemCallback<Hit>() {
     override fun areContentsTheSame(oldItem: Hit, newItem: Hit): Boolean {
         return oldItem == newItem
     }
-
-
 }
 
 

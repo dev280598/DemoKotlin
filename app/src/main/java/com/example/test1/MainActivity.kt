@@ -1,5 +1,6 @@
 package com.example.test1
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,8 +16,7 @@ import com.example.test1.databinding.ActivityMainBinding
 import com.example.test1.model.Hit
 import com.example.test1.services.onclickCallBack
 import com.example.test1.viewholder.MainViewModel
-import kotlinx.android.synthetic.main.activity_main.*
-
+import java.io.Serializable
 
 
 class MainActivity : AppCompatActivity(),
@@ -24,11 +24,21 @@ class MainActivity : AppCompatActivity(),
     private var mainViewModel: MainViewModel? = null
     private var notiAdapter: NotiAdapter? = null
     private var networkState : NetworkState? = null
+    var list: ArrayList<Hit> =ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val activityMainBinding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         val recyclerView = activityMainBinding.viewPost
+        val button = activityMainBinding.btnDone
+        button.setOnClickListener {
+            Toast.makeText(this, "Noti Checked", Toast.LENGTH_LONG).show();
+            val intent = Intent(this, ResultActivity::class.java)
+            val bundle = Bundle()
+            bundle.putSerializable("Hit", list as Serializable)
+            intent.putExtra("BUNDLE", bundle)
+            startActivity(intent)
+        }
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
@@ -63,10 +73,20 @@ class MainActivity : AppCompatActivity(),
                 notiAdapter?.currentList?.get(pos)?.source?.checkAccept = true
                 notiAdapter?.notifyItemChanged(pos)
             }
-
+//
         }
     }
+    override fun evTest(view: View, hit: Hit) {
+        list.add(hit)
+        Log.d("Hit","Hit list:" +list)
+
+    }
+
+
+
+
 }
+
 
 
 

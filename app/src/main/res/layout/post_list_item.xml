@@ -32,12 +32,21 @@
 
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="match_parent"
+            android:layout_width="290dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_toRightOf="@id/img"
             android:text="@{post.source.title}"
             android:textSize="15sp" />
+        <CheckBox
+            android:id="@+id/checkbox_id"
+            android:checked="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/tv_title"
+            android:gravity="center_horizontal"
+            ></CheckBox>
+
 
         <ImageView
             android:id="@+id/img_space"

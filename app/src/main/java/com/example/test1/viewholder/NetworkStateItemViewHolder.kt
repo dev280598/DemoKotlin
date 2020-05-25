@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.test1.R
 import com.example.test1.constant.NetworkState
+import com.example.test1.model.Hit
 
 import com.example.test1.services.onclickCallBack
 

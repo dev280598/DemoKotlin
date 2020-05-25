@@ -7,14 +7,20 @@
             name="handle"
             type="com.example.test1.MainActivity" />
     </data>
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_done"
+            android:text="Done"/>
             <androidx.recyclerview.widget.RecyclerView
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:id="@+id/viewPost"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                />
-    </RelativeLayout>
+    </LinearLayout>
     </layout>
