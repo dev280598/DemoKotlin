@@ -18,7 +18,6 @@ data class NotifyResponse(
 ): Serializable
 
 data class Hits(
-
     @field:SerializedName("total") val total: Int,
     @field:SerializedName("max_score") val max_score: String,
     @field:SerializedName("hits") val hits: List<Hit>?
@@ -30,15 +29,12 @@ data class Hit (
         @ColumnInfo @field:SerializedName("_index") val _index: String,
         @ColumnInfo @field:SerializedName("_type") val _type: String,
         @PrimaryKey @ColumnInfo @field:SerializedName("_id") val _id: String,
-    //@field:SerializedName("_score") val _score: Any,
+       // @ColumnInfo@field:SerializedName("_score") val _score: Any,
         @ColumnInfo @field:SerializedName("_source") val source: _source,
         @ColumnInfo @field:SerializedName("sort") val sort: List<Double>
-
 ): Serializable
 
-
 data class Fi102(
-
     @field:SerializedName("iv109") val iv109: String,
     @field:SerializedName("targetid") val targetid: String,
     @field:SerializedName("iv102") val iv102: String,
@@ -46,7 +42,6 @@ data class Fi102(
 ): Serializable
 
 data class Fi101(
-
     @field:SerializedName("iv109") val iv109: String,
     @field:SerializedName("targetid") val targetid: String,
     @field:SerializedName("iv102") val iv102: String,
@@ -71,7 +66,6 @@ data class _source(
 ): Serializable
 
 data class _shards(
-
     @field:SerializedName("total") val total: Int,
     @field:SerializedName("successful") val successful: Int,
     @field:SerializedName("skipped") val skipped: Int,

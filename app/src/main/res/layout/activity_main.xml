@@ -5,22 +5,28 @@
     <data>
         <variable
             name="handle"
-            type="com.example.test1.MainActivity" />
+            type="com.example.test1.activities.MainActivity" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <Button
+        <androidx.appcompat.widget.Toolbar
+            android:background="#000"
+            app:subtitleTextColor="#FFFFFF"
+            app:titleTextColor="#4ADCEF"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_done"
-            android:text="Done"/>
+            app:subtitle="List notification"
+            app:title="Hahalolo"
+            />
             <androidx.recyclerview.widget.RecyclerView
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:id="@+id/viewPost"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                />
+
     </LinearLayout>
     </layout>

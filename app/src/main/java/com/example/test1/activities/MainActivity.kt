@@ -1,21 +1,27 @@
-package com.example.test1
+package com.example.test1.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.test1.R
 import com.example.test1.adapter.NotiAdapter
 import com.example.test1.constant.NetworkState
 import com.example.test1.databinding.ActivityMainBinding
+
 import com.example.test1.model.Hit
 import com.example.test1.services.onclickCallBack
 import com.example.test1.viewholder.MainViewModel
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 import java.io.Serializable
 
 
@@ -23,24 +29,22 @@ class MainActivity : AppCompatActivity(),
         onclickCallBack {
     private var mainViewModel: MainViewModel? = null
     private var notiAdapter: NotiAdapter? = null
-    private var networkState : NetworkState? = null
     var list: ArrayList<Hit> =ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val activityMainBinding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        val toolbar = findViewById(R.id.toolbar) as Toolbar
+        setSupportActionBar(toolbar)
+
         val recyclerView = activityMainBinding.viewPost
-        val button = activityMainBinding.btnDone
-        button.setOnClickListener {
-            Toast.makeText(this, "Noti Checked", Toast.LENGTH_LONG).show();
-            val intent = Intent(this, ResultActivity::class.java)
-            val bundle = Bundle()
-            bundle.putSerializable("Hit", list as Serializable)
-            intent.putExtra("BUNDLE", bundle)
-            startActivity(intent)
-        }
+
+
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
+        recyclerView.itemAnimator = SlideInLeftAnimator()
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         notiAdapter = NotiAdapter(this)
         allPost
@@ -73,18 +77,38 @@ class MainActivity : AppCompatActivity(),
                 notiAdapter?.currentList?.get(pos)?.source?.checkAccept = true
                 notiAdapter?.notifyItemChanged(pos)
             }
-//
+            R.id.checkbox_id -> {
+                notiAdapter?.currentList?.get(pos)?.source?.checkAccept = true
+                notiAdapter?.notifyItemChanged(pos)
+            }
         }
     }
-    override fun evTest(view: View, hit: Hit) {
-        list.add(hit)
-        Log.d("Hit","Hit list:" +list)
-
+    override fun evTest( hit: Hit) {
+            list.add(hit)
+            Log.d("AAAA","Hit list:" +list)
+    }
+    override fun unchecked(hit: Hit) {
+        list.remove(hit)
+        Log.d("AAAA","Size list:" +list.size)
+    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
     }
 
-
-
-
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.getItemId()
+        if (id == R.id.action_one) {
+            Toast.makeText(this, "Item One Clicked", Toast.LENGTH_LONG).show()
+            val intent = Intent(this, ResultActivity::class.java)
+            val bundle = Bundle()
+            bundle.putSerializable("Hit", list as Serializable)
+            intent.putExtra("BUNDLE", bundle)
+            startActivity(intent)
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }
 
 

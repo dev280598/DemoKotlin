@@ -1,8 +1,10 @@
 package com.example.test1.datasource
 
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
+import com.example.test1.R
 import com.example.test1.constant.Constants.Companion.LIST_KEY
 import com.example.test1.constant.NetworkState
 import com.example.test1.database.NotiDao
@@ -10,6 +12,8 @@ import com.example.test1.model.Hit
 import com.example.test1.model.NotifyResponse
 import com.example.test1.services.APIClient
 import com.example.test1.services.onclickCallBack
+import kotlinx.android.synthetic.main.post_list_item.view.*
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,7 +37,6 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
             }
         }
     }
-
     override fun loadInitial(params: LoadInitialParams<String>, callback: LoadInitialCallback<String, Hit>) {
         networkState.postValue(NetworkState.LOADING)
         initialLoad.postValue(NetworkState.LOADING)
@@ -142,4 +145,6 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
         dao?.deleteAll()
         dao?.insert(hits)
     }
+
+
 }

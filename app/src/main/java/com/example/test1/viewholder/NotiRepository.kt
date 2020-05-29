@@ -17,10 +17,8 @@ class NotiRepository()  {
     private val mutableLiveData = MutableLiveData<List<Hit>>()
     private var dao: NotiDao? = null
     fun getMutableLiveData(): MutableLiveData<List<Hit>> {
-
         val userDataService = APIClient.client
         val call = userDataService.getDataInit()
-
         call.enqueue(object : Callback<NotifyResponse?> {
             override fun onResponse(call: Call<NotifyResponse?>, response: Response<NotifyResponse?>) {
                 val Post = response.body()

@@ -7,6 +7,6 @@ import com.example.test1.model.Hit
 
 interface onclickCallBack {
     fun onClick(view:View,pos:Int)
-    fun evTest(view:View,hit: Hit)
-
+    fun evTest(hit: Hit)
+    fun unchecked(hit: Hit)
 }

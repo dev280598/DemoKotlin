@@ -1,10 +1,5 @@
 package com.example.test1.viewholder
 
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
 import android.widget.CheckBox
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -12,25 +7,20 @@ import com.example.test1.BR
 import com.example.test1.R
 import com.example.test1.model.Hit
 import com.example.test1.services.onclickCallBack
-import kotlinx.android.synthetic.main.item_invite.view.*
 
 class NotifyListingItemViewHolder(val binding: ViewDataBinding, private val adapterOnclick: onclickCallBack) : RecyclerView.ViewHolder(binding.root) {
-
-
-    fun bindTo(data: Hit) {
+    fun bindTo(data: Hit,position: Int) {
         binding.setVariable(BR.post, data)
         binding.executePendingBindings()
         data.source.checkAccept.let {
             if (it) {
-                R.layout.item_empty
+                adapterOnclick.evTest(data)
             } else {
-
+                adapterOnclick.unchecked(data)
             }
         }
-        binding.root.findViewById<CheckBox>(R.id.checkbox_id).setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                adapterOnclick?.evTest(buttonView, data)
-            }
+        binding.root.findViewById<CheckBox>(R.id.checkbox_id).setOnClickListener() { view->
+            adapterOnclick.onClick(view,position)
         }
     }
 companion object {

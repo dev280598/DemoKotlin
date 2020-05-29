@@ -3,6 +3,7 @@ package com.example.test1.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -23,9 +24,7 @@ import kotlin.coroutines.coroutineContext
 
 class NotiAdapter(val adapterOnclick: onclickCallBack):  PagedListAdapter<Hit, ViewHolder>(NotiDiff) {
 
-
     private var networkState: NetworkState? = null
-
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val postListItemBinding: ViewDataBinding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.context),
@@ -65,9 +64,11 @@ class NotiAdapter(val adapterOnclick: onclickCallBack):  PagedListAdapter<Hit, V
         return super.getItemCount() + if (hasExtraRow()) 1 else 0
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         when (getItemViewType(position)) {
             R.layout.item_invite -> (holder as ViewHolderItemNotiInvite).bindTo(getItem(position)!!, position)
-            R.layout.post_list_item -> (holder as NotifyListingItemViewHolder).bindTo(getItem(position)!!)
+            R.layout.post_list_item -> (holder as NotifyListingItemViewHolder).bindTo(getItem(position)!!,position)
+
             R.layout.network_state_layout -> (holder as NetworkStateItemViewHolder).bindTo(
                     networkState, position)
             R.layout.item_empty-> initLayoutTwo(holder as PostViewHolderEmpty, position)
@@ -90,16 +91,10 @@ class NotiAdapter(val adapterOnclick: onclickCallBack):  PagedListAdapter<Hit, V
             notifyItemChanged(itemCount - 1)
         }
     }
-//    private fun initLayoutOne(postViewHolder: PostViewHolder, i: Int) {
-//        val currentStudent = getItem(i)
-//        postViewHolder.postListItemBinding.post = currentStudent
-//    }
     private fun initLayoutTwo(postViewHolderEmpty: PostViewHolderEmpty, i: Int) {
         val currentStudent = getItem(i)
         postViewHolderEmpty.postListItemEmptyBinding.post = currentStudent
     }
-
-   // inner class PostViewHolder(val postListItemBinding: PostListItemBinding) : ViewHolder(postListItemBinding.root)
     inner class PostViewHolderEmpty(val postListItemEmptyBinding: ItemEmptyBinding) : ViewHolder(postListItemEmptyBinding.root)
 
 }

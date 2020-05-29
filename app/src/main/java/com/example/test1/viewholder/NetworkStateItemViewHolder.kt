@@ -20,8 +20,6 @@ class NetworkStateItemViewHolder(view: View, private val adapterOnclick: onclick
     private val retry = view.findViewById<Button>(R.id.retry_button)
     private val errorMsg = view.findViewById<TextView>(R.id.error_msg)
 
-
-
     fun bindTo(networkState: NetworkState?, pos: Int) {
         progressBar.visibility = toVisibility(networkState?.status == NetworkState.Status.RUNNING)
         retry.visibility = toVisibility(networkState?.status == NetworkState.Status.FAILED)
@@ -31,14 +29,12 @@ class NetworkStateItemViewHolder(view: View, private val adapterOnclick: onclick
             adapterOnclick.onClick(it, pos)
         }
     }
-
     companion object {
         fun create(parent: ViewGroup, adapterOnclick: onclickCallBack): NetworkStateItemViewHolder {
             val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.network_state_layout, parent, false)
             return NetworkStateItemViewHolder(view, adapterOnclick)
         }
-
         fun toVisibility(constraint: Boolean): Int {
             return if (constraint) {
                 View.VISIBLE

@@ -9,6 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <androidx.appcompat.widget.Toolbar
+            android:background="#026977"
+            app:subtitleTextColor="#FFFFFF"
+            app:titleTextColor="#4ADCEF"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:subtitle="List notification checked"
+            app:title="Hahalolo"
+            />
         <androidx.recyclerview.widget.RecyclerView
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:id="@+id/viewResult"

@@ -25,11 +25,10 @@ import com.squareup.picasso.Picasso
 import kotlin.coroutines.coroutineContext
 
 class NotiCheckAdapter(val notis: ArrayList<Hit>) : RecyclerView.Adapter<ViewHolder>() {
-
     private val EMPTY_ITEM = 0
     private val NORMAL_ITEM = 1
     override fun getItemViewType(position: Int): Int {
-        return if (LIST_KEY.containsKey(notis[position]?.source?.iv104)
+        return if (LIST_KEY.containsKey(notis[position].source.iv104)
         ) {
             NORMAL_ITEM
         } else {
@@ -56,11 +55,11 @@ class NotiCheckAdapter(val notis: ArrayList<Hit>) : RecyclerView.Adapter<ViewHol
             if (LIST_KEY.containsKey(notis[position].source.iv104)) {
                 viewHolder.tvTitle.text = notis[position].source.fi101[0].iv102 + " " + LIST_KEY[notis[position].source.iv104 + ""]
 
-                Picasso.get()
+                Glide.with(viewHolder.itemView).setDefaultRequestOptions(RequestOptions().circleCrop())
                         .load(notis[position].source.fi101[0].iv103)
                         .into(viewHolder.imgAvt)
             } else {
-                val viewHolder = holder as ViewHolderItemEmpty
+                 holder as ViewHolderItemEmpty
             }
         }
     }
