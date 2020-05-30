@@ -15,4 +15,5 @@ interface NotiDao{
      fun insert(hits: List<Hit>)
     @Query("DELETE FROM noti_table")
      fun deleteAll()
+
 }

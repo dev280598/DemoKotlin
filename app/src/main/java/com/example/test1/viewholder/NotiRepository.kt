@@ -27,6 +27,7 @@ class NotiRepository()  {
                     Post.hits.hits?.forEach {
                         val test = listOf<Hit>()
                         dao?.insert(test)
+
                     }
                 }
             }

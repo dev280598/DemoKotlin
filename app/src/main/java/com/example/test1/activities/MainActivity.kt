@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.CheckBox
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity(),
         setSupportActionBar(toolbar)
 
         val recyclerView = activityMainBinding.viewPost
-
+        val checkBox =findViewById(R.id.checkbox_id) as CheckBox?
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
@@ -79,23 +80,21 @@ class MainActivity : AppCompatActivity(),
             }
             R.id.checkbox_id -> {
                 notiAdapter?.currentList?.get(pos)?.source?.checkAccept = true
-                notiAdapter?.notifyItemChanged(pos)
             }
         }
     }
-    override fun evTest( hit: Hit) {
-            list.add(hit)
-            Log.d("AAAA","Hit list:" +list)
+    override fun isChecked( hit: Hit?) {
+            list.add(hit!!)
+//            Log.d("AAAA","Hit list:" +list)
     }
-    override fun unchecked(hit: Hit) {
-        list.remove(hit)
-        Log.d("AAAA","Size list:" +list.size)
+    override fun unChecked(hit: Hit?,pos: Int) {
+            list.remove(hit!!)
+//            Log.d("AAAA","Hit list:" +list)
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
     }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.getItemId()
         if (id == R.id.action_one) {
