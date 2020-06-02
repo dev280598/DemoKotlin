@@ -11,20 +11,6 @@ class NotifyListingItemViewHolder(val binding: ViewDataBinding, private val adap
     fun bindTo(data: Hit?,position: Int) {
         binding.setVariable(BR.post, data)
         binding.executePendingBindings()
-//        data?.source!!.checkAccept.let {
-//            if (it) {
-//                adapterOnclick.isChecked(data)
-//            } else {
-//
-//            }
-//        }
-//        binding.root.checkbox_id.setOnCheckedChangeListener { v, isChecked ->
-//            if (isChecked)
-//            {
-//               adapterOnclick.isChecked(data)
-//            }
-//
-//        }
         binding.root.checkbox_id.setOnClickListener {
             adapterOnclick.onClick(it,position)
             val isChecked: Boolean = binding.root.checkbox_id.isChecked

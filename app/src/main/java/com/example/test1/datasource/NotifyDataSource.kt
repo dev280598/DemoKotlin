@@ -46,7 +46,7 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
                 override fun onResponse(call: Call<NotifyResponse?>, response: Response<NotifyResponse?>) {
                     if (response.isSuccessful) {
                         response.body()?.hits?.hits?.let {
-                            it.forEach {
+                            it.forEach {it ->
                                 if (LIST_KEY.containsKey(it.source.iv104)) {
                                     it.source.title =
                                             it.source.fi101[0].iv102 + " " + LIST_KEY[it.source.iv104 + ""]
@@ -85,7 +85,7 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
             override fun onResponse(call: Call<NotifyResponse?>, response: Response<NotifyResponse?>) {
                 if (response.isSuccessful) {
                     response.body()?.hits?.hits?.let {
-                        it.forEach {
+                        it.forEach { it ->
                             if (LIST_KEY.containsKey(it.source.iv104)) {
                                 it.source.title =
                                         it.source.fi101[0].iv102 + " " + LIST_KEY[it.source.iv104 + ""]
@@ -145,6 +145,4 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
         dao?.deleteAll()
         dao?.insert(hits)
     }
-
-
 }

@@ -34,7 +34,7 @@ class ResultActivity : AppCompatActivity() {
 
         val intent = intent
         val bundle = intent.getBundleExtra("BUNDLE")
-        val list = bundle?.getSerializable("Hit") as ArrayList<Hit>
+        @Suppress("UNCHECKED_CAST") val list = bundle?.getSerializable("Hit") as ArrayList<Hit>
         Log.d("AAAAA","List:" +list)
 
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
