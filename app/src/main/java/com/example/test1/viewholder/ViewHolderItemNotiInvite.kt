@@ -19,7 +19,7 @@ class ViewHolderItemNotiInvite(
     fun bindTo(data: Hit, position: Int) {
         binding.setVariable(BR.post,data)
         binding.executePendingBindings()
-        data?.source?.checkAccept?.let {
+        data.source.checkAccept.let {
             if (it) {
                 binding.root.bt_accept.visibility = View.INVISIBLE
                 binding.root.bt_cancel.visibility = View.INVISIBLE
@@ -35,6 +35,7 @@ class ViewHolderItemNotiInvite(
         }
         binding.root.findViewById<Button>(R.id.bt_cancel).setOnClickListener {
             adapterOnclick.onClick(it, position)
+
         }
     }
     companion object {

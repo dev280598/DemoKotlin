@@ -5,6 +5,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.paging.PagedListAdapter
@@ -16,19 +18,20 @@ import com.example.test1.databinding.ItemEmptyBinding
 import com.example.test1.databinding.PostListItemBinding
 import com.example.test1.model.Hit
 import com.example.test1.constant.NetworkState
+import com.example.test1.services.Presenter
 import com.example.test1.services.onclickCallBack
 import com.example.test1.viewholder.NetworkStateItemViewHolder
 import com.example.test1.viewholder.NotifyListingItemViewHolder
 import com.example.test1.viewholder.ViewHolderItemNotiInvite
 import kotlin.coroutines.coroutineContext
 
-class NotiAdapter(val adapterOnclick: onclickCallBack):  PagedListAdapter<Hit, ViewHolder>(NotiDiff) {
+class NotiAdapter(val adapterOnclick: onclickCallBack, val callback : Presenter):  PagedListAdapter<Hit, ViewHolder>(NotiDiff) {
 
     private var networkState: NetworkState? = null
 
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
-        val postListItemBinding: ViewDataBinding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.context),
+        val postListItemBinding: PostListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.context),
                 R.layout.post_list_item, viewGroup, false)
         val itemEmptyBinding: ItemEmptyBinding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.context),
                 R.layout.item_empty, viewGroup, false)
@@ -53,12 +56,15 @@ class NotiAdapter(val adapterOnclick: onclickCallBack):  PagedListAdapter<Hit, V
         } else {
             if (getItem(position)?.source?.iv104.equals("noti_friend_invite_like")) {
                 R.layout.item_invite
-            } else if (!LIST_KEY.containsKey(getItem(position)?.source?.iv104) && getItem(position)?.checked==true) {
+            } else if (!LIST_KEY.containsKey(getItem(position)?.source?.iv104) || getItem(position)?.checked==true) {
                 R.layout.item_empty
             } else {
                 R.layout.post_list_item
             }
         }
+    }
+    fun setItemChaged(position: Int){
+        notifyItemChanged(position)
     }
     override fun getItemCount(): Int {
         return super.getItemCount() + if (hasExtraRow()) 1 else 0
@@ -67,9 +73,7 @@ class NotiAdapter(val adapterOnclick: onclickCallBack):  PagedListAdapter<Hit, V
 
         when (getItemViewType(position)) {
             R.layout.item_invite -> (holder as ViewHolderItemNotiInvite).bindTo(getItem(position)!!, position)
-            R.layout.post_list_item -> (holder as NotifyListingItemViewHolder).bindTo(getItem(position)!!,position)
-
-
+            R.layout.post_list_item -> (holder as NotifyListingItemViewHolder).bindTo(getItem(position)!!,position,callback)
             R.layout.network_state_layout -> (holder as NetworkStateItemViewHolder).bindTo(
                     networkState, position)
             R.layout.item_empty-> initLayoutTwo(holder as PostViewHolderEmpty, position)
