@@ -26,6 +26,7 @@ class NotiAdapter(val adapterOnclick: onclickCallBack):  PagedListAdapter<Hit, V
 
     private var networkState: NetworkState? = null
 
+
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val postListItemBinding: ViewDataBinding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.context),
                 R.layout.post_list_item, viewGroup, false)
@@ -36,7 +37,6 @@ class NotiAdapter(val adapterOnclick: onclickCallBack):  PagedListAdapter<Hit, V
                         R.layout.item_invite, viewGroup, false)
         return when (i) {
             R.layout.post_list_item -> NotifyListingItemViewHolder.create(postListItemBinding, adapterOnclick)
-
             R.layout.item_empty ->PostViewHolderEmpty(itemEmptyBinding)
             R.layout.network_state_layout -> NetworkStateItemViewHolder.create(viewGroup, adapterOnclick)
             R.layout.item_invite -> ViewHolderItemNotiInvite.create(
@@ -53,7 +53,7 @@ class NotiAdapter(val adapterOnclick: onclickCallBack):  PagedListAdapter<Hit, V
         } else {
             if (getItem(position)?.source?.iv104.equals("noti_friend_invite_like")) {
                 R.layout.item_invite
-            } else if (!LIST_KEY.containsKey(getItem(position)?.source?.iv104)) {
+            } else if (!LIST_KEY.containsKey(getItem(position)?.source?.iv104) && getItem(position)?.checked==true) {
                 R.layout.item_empty
             } else {
                 R.layout.post_list_item
@@ -68,6 +68,7 @@ class NotiAdapter(val adapterOnclick: onclickCallBack):  PagedListAdapter<Hit, V
         when (getItemViewType(position)) {
             R.layout.item_invite -> (holder as ViewHolderItemNotiInvite).bindTo(getItem(position)!!, position)
             R.layout.post_list_item -> (holder as NotifyListingItemViewHolder).bindTo(getItem(position)!!,position)
+
 
             R.layout.network_state_layout -> (holder as NetworkStateItemViewHolder).bindTo(
                     networkState, position)

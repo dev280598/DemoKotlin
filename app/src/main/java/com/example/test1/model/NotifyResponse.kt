@@ -31,7 +31,9 @@ data class Hit (
         @PrimaryKey @ColumnInfo @field:SerializedName("_id") val _id: String,
        // @ColumnInfo@field:SerializedName("_score") val _score: Any,
         @ColumnInfo @field:SerializedName("_source") val source: _source,
-        @ColumnInfo @field:SerializedName("sort") val sort: List<Double>
+        @ColumnInfo @field:SerializedName("sort") val sort: List<Double>,
+        var checked:Boolean = false
+
 ): Serializable
 
 data class Fi102(

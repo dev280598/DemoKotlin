@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.CheckBox
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
@@ -21,8 +22,10 @@ import com.example.test1.databinding.ActivityMainBinding
 
 import com.example.test1.model.Hit
 import com.example.test1.services.onclickCallBack
+import com.example.test1.viewholder.MainCallback
 import com.example.test1.viewholder.MainViewModel
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
+import okhttp3.internal.concurrent.Task
 import java.io.Serializable
 
 
@@ -30,7 +33,7 @@ class MainActivity : AppCompatActivity(),
         onclickCallBack {
     private var mainViewModel: MainViewModel? = null
     private var notiAdapter: NotiAdapter? = null
-    var list: ArrayList<Hit> =ArrayList()
+    var list: ArrayList<Hit> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +44,7 @@ class MainActivity : AppCompatActivity(),
         setSupportActionBar(toolbar)
 
         val recyclerView = activityMainBinding.viewPost
-        val checkBox =findViewById(R.id.checkbox_id) as CheckBox?
+        val checkBox = findViewById(R.id.checkbox_id) as CheckBox?
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
@@ -50,8 +53,10 @@ class MainActivity : AppCompatActivity(),
         notiAdapter = NotiAdapter(this)
         allPost
         recyclerView.adapter = notiAdapter
+
     }
-    fun observeData(){
+
+    fun observeData() {
         mainViewModel?.getArticleLiveData()?.observeForever {
             notiAdapter?.submitList(it)
         }
@@ -59,12 +64,14 @@ class MainActivity : AppCompatActivity(),
             notiAdapter?.setNetworkState(it)
         }
     }
+
     private val allPost: Unit
-         get() {
+        get() {
             mainViewModel?.allPost?.observe(this, Observer<List<Hit?>?> {
-                    observeData()
+                observeData()
             })
         }
+
     override fun onClick(view: View, pos: Int) {
         when (view.id) {
             R.id.retry_button -> {
@@ -81,20 +88,41 @@ class MainActivity : AppCompatActivity(),
             R.id.checkbox_id -> {
                 notiAdapter?.currentList?.get(pos)?.source?.checkAccept = true
             }
+            R.id.btn_delete -> {
+                notiAdapter?.currentList?.get(pos)?.checked = true
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Androidly Alert")
+                builder.setMessage("You can delete this noti")
+                builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+                    notiAdapter?.notifyItemChanged(pos)
+                    notiAdapter?.notifyDataSetChanged()
+                    Log.d("AAAA","size: ${notiAdapter?.currentList?.size}")
+                }
+                builder.setNegativeButton(android.R.string.no) { dialog, which ->
+                    Toast.makeText(applicationContext,
+                            android.R.string.no, Toast.LENGTH_SHORT).show()
+                }
+                builder.show()
+
+            }
         }
     }
-    override fun isChecked( hit: Hit?) {
-            list.add(hit!!)
+
+    override fun isChecked(hit: Hit?) {
+        list.add(hit!!)
 //            Log.d("AAAA","Hit list:" +list)
     }
-    override fun unChecked(hit: Hit?,pos: Int) {
-            list.remove(hit!!)
+
+    override fun unChecked(hit: Hit?, pos: Int) {
+        list.remove(hit!!)
 //            Log.d("AAAA","Hit list:" +list)
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.getItemId()
         if (id == R.id.action_one) {
@@ -108,6 +136,7 @@ class MainActivity : AppCompatActivity(),
         }
         return super.onOptionsItemSelected(item)
     }
+
 }
 
 

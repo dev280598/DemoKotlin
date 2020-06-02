@@ -27,6 +27,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val allPost: LiveData<List<Hit>>
         get() = postRepository.getMutableLiveData()
 
+    fun callback(){
+
+    }
+
     init {
         dao = DB.getDatabase(application).NotiDao()
         postRepository = NotiRepository()
