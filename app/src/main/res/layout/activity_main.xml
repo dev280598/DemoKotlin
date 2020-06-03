@@ -6,27 +6,38 @@
         <variable
             name="callback"
             type="com.example.test1.services.Presenter" />
+        <variable
+            name="viewmodel"
+            type="com.example.test1.viewholder.MainViewModel" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
         <androidx.appcompat.widget.Toolbar
-            android:background="#000"
+            android:background="#1F6670"
             app:subtitleTextColor="#FFFFFF"
             app:titleTextColor="#4ADCEF"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:subtitle="List notification"
-            app:title="Hahalolo"
-            />
-            <androidx.recyclerview.widget.RecyclerView
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:id="@+id/viewPost"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-               />
+            app:title="Hahalolo"/>
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:id="@+id/tv"
+            android:textColor="#000"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/viewPost"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </LinearLayout>
     </layout>

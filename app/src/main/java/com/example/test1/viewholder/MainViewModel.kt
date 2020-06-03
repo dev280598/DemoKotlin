@@ -3,6 +3,7 @@ package com.example.test1.viewholder
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.switchMap
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -18,11 +19,15 @@ import java.util.concurrent.Executors
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
+    private val _likes = MutableLiveData(0)
     private val postRepository: NotiRepository
     private val dao: NotiDao
     private var executor: Executor? = null
     private var networkState: LiveData<NetworkState>
     private var articleLiveData: LiveData<PagedList<Hit>>? = null
+
+    val likes : LiveData<Int> = _likes
+
     val factoty = NotifyDataSourceFactory()
     val allPost: LiveData<List<Hit>>
         get() = postRepository.getMutableLiveData()
@@ -30,7 +35,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun callback(){
 
     }
-
+    fun onLike(){
+        _likes.value =(_likes.value ?: 0) +1
+    }
     init {
         dao = DB.getDatabase(application).NotiDao()
         postRepository = NotiRepository()

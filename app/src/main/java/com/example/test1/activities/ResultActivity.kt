@@ -17,7 +17,7 @@ import com.example.test1.viewholder.MainViewModel
 class ResultActivity : AppCompatActivity() {
     private var mainViewModel: MainViewModel? = null
     private var postAdapter: NotiCheckAdapter? = null
-    var list : ArrayList<Hit> = ArrayList()
+    var list : MutableList<Hit> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,8 +26,6 @@ class ResultActivity : AppCompatActivity() {
 
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
 
         recyclerViewResult.layoutManager = LinearLayoutManager(this)
         recyclerViewResult.setHasFixedSize(true)
