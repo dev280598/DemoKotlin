@@ -14,6 +14,7 @@ import com.example.test1.model.Hit
 import com.example.test1.model.NotifyResponse
 import com.example.test1.services.APIClient
 import com.example.test1.services.onclickCallBack
+import com.example.test1.viewholder.MainViewModel
 import kotlinx.android.synthetic.main.post_list_item.view.*
 import kotlinx.coroutines.withContext
 import retrofit2.Call
@@ -24,6 +25,7 @@ import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
 class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
+    private var mainViewModel: MainViewModel? = null
     val networkState = MutableLiveData<NetworkState>()
     val initialLoad = MutableLiveData<NetworkState>()
     var userDataService = APIClient.client
@@ -57,6 +59,8 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
                                  it.checked =true
                                  }
                             }
+                                mainViewModel?.dao?.getAllDB()
+                                Log.d("AAAA","allData: ${mainViewModel?.dao?.getAllDB()}")
                                 SaveDataToDB(dao, it)
                                 callback.onResult(it, null, makeSort(it.lastOrNull()?.sort))
                                 networkState.postValue(NetworkState.LOADED)
@@ -96,6 +100,8 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
                                 it.source.title = ""
                             }
                         }
+                        mainViewModel?.dao?.getAllDB()
+                        Log.d("AAAA","allData: ${mainViewModel?.dao?.getAllDB()}")
                         SaveDataToDB(dao, it)
                         callback.onResult(it,makeSort(it.lastOrNull()?.sort))
                         networkState.postValue(NetworkState.LOADED)

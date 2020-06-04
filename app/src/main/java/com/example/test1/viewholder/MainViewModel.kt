@@ -21,7 +21,7 @@ import java.util.concurrent.Executors
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _likes = MutableLiveData(0)
     private val postRepository: NotiRepository
-    private val dao: NotiDao
+     val dao: NotiDao
     private var executor: Executor? = null
     private var networkState: LiveData<NetworkState>
     private var articleLiveData: LiveData<PagedList<Hit>>? = null
