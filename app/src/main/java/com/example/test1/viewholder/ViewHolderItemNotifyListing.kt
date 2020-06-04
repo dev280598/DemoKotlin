@@ -35,26 +35,7 @@ class NotifyListingItemViewHolder(var binding: PostListItemBinding, private val 
                 }
             }
         }
-
-
-
-//        itemView.setOnLongClickListener { v ->
-//            val builder = androidx.appcompat.app.AlertDialog.Builder(v.context)
-//            builder.setTitle("Androidly Alert")
-//            builder.setMessage("You want to delete this noti")
-//            builder.setPositiveButton("Yes") { dialog, which ->
-//                //data?.checked = true
-//                binding.btnDelete.visibility = View.INVISIBLE
-//
-//            }
-//            builder.setNegativeButton(android.R.string.no) { dialog, which ->
-//            }
-//            builder.show()
-//            false
-//        }
     }
-
-
 companion object {
     fun create(binding: PostListItemBinding, adapterOnclick: onclickCallBack): NotifyListingItemViewHolder {
         return NotifyListingItemViewHolder(binding, adapterOnclick)

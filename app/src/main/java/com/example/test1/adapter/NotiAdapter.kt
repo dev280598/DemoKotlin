@@ -1,12 +1,7 @@
 package com.example.test1.adapter
 
-
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.paging.PagedListAdapter
@@ -23,12 +18,10 @@ import com.example.test1.services.onclickCallBack
 import com.example.test1.viewholder.NetworkStateItemViewHolder
 import com.example.test1.viewholder.NotifyListingItemViewHolder
 import com.example.test1.viewholder.ViewHolderItemNotiInvite
-import kotlin.coroutines.coroutineContext
 
-class NotiAdapter(val adapterOnclick: onclickCallBack, val callback : Presenter):  PagedListAdapter<Hit, ViewHolder>(NotiDiff) {
+class NotiAdapter(private val adapterOnclick: onclickCallBack, val callback : Presenter): PagedListAdapter<Hit, ViewHolder>(NotiDiff) {
 
     private var networkState: NetworkState? = null
-
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
         val postListItemBinding: PostListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(viewGroup.context),

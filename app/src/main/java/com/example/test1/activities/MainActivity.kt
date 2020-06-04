@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.test1.R
 import com.example.test1.adapter.NotiAdapter
+import com.example.test1.database.NotiDao
 import com.example.test1.databinding.ActivityMainBinding
 import com.example.test1.model.Hit
 import com.example.test1.services.Presenter
@@ -34,20 +35,21 @@ class MainActivity : AppCompatActivity(),
     private var mainViewModel: MainViewModel? = null
     private var notiAdapter: NotiAdapter? = null
     private val list = MutableLiveData<MutableList<Hit>>()
+    private var swipeRefreshLayout: SwipeRefreshLayout? =null
+    val listTemp = ArrayList<String>()
+    var notiDao : NotiDao?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val activityMainBinding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        val toolbar = findViewById(R.id.toolbar) as Toolbar
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         val tv = findViewById<View>(R.id.tv) as TextView
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         list.value = ArrayList()
 
-        val swipeRefreshLayout = findViewById<View>(R.id.swipe_refresh_layout) as SwipeRefreshLayout
-
-
+         swipeRefreshLayout = findViewById<View>(R.id.swipe_refresh_layout) as SwipeRefreshLayout
 
          val callBack = object :Presenter{
             override fun callBack(pos: Int) {
@@ -73,16 +75,14 @@ class MainActivity : AppCompatActivity(),
         recyclerView.itemAnimator = SlideInLeftAnimator()
         recyclerView.adapter = notiAdapter
         allPost
-        swipeRefreshLayout.setOnRefreshListener{
-            allPost
-            swipeRefreshLayout.isRefreshing = false
-            notiAdapter?.notifyDataSetChanged()
-            Log.d("AAAA","sizes : ${notiAdapter?.currentList?.size}")
-
+        swipeRefreshLayout?.setOnRefreshListener{
+          mainViewModel?.getNetWorkState()?.refresh?.invoke()
+            swipeRefreshLayout?.isRefreshing = false
         }
     }
-    fun observeData() {
-        mainViewModel?.getArticleLiveData()?.observeForever {
+
+    private fun observeData() {
+        mainViewModel?.getArticleLiveData()?.observeForever { it ->
             notiAdapter?.submitList(it)
 
         }
@@ -94,7 +94,6 @@ class MainActivity : AppCompatActivity(),
         get() {
             mainViewModel?.allPost?.observe(this, Observer<List<Hit?>?> {
                 observeData()
-
             })
         }
     override fun onClick(view: View, pos: Int) {
@@ -145,6 +144,11 @@ class MainActivity : AppCompatActivity(),
                     it.checked = true
                     notiAdapter?.notifyDataSetChanged()
                 }
+             listTemp?.add(it._id)
+
+                notiDao?.insert(list.value!!)
+
+                Log.d("AAAA","$listTemp")
             }
         }
         return super.onOptionsItemSelected(item)

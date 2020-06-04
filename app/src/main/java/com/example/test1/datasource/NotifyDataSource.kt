@@ -4,9 +4,11 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
+import androidx.room.Query
 import com.example.test1.R
 import com.example.test1.constant.Constants.Companion.LIST_KEY
 import com.example.test1.constant.NetworkState
+import com.example.test1.database.DB
 import com.example.test1.database.NotiDao
 import com.example.test1.model.Hit
 import com.example.test1.model.NotifyResponse
@@ -50,8 +52,9 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
                                 if (LIST_KEY.containsKey(it.source.iv104)) {
                                     it.source.title =
                                             it.source.fi101[0].iv102 + " " + LIST_KEY[it.source.iv104 + ""]
+                                    Log.d("AAAA","Status: Loaded")
                                  } else {
-                                 it.source.title = ""
+                                 it.checked =true
                                  }
                             }
                                 SaveDataToDB(dao, it)
