@@ -36,8 +36,6 @@ class MainActivity : AppCompatActivity(),
     private var notiAdapter: NotiAdapter? = null
     private val list = MutableLiveData<MutableList<Hit>>()
     private var swipeRefreshLayout: SwipeRefreshLayout? =null
-    val listTemp = ArrayList<String>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -144,9 +142,8 @@ class MainActivity : AppCompatActivity(),
                     it.checked = true
                     notiAdapter?.notifyDataSetChanged()
                 }
-             listTemp?.add(it._id)
                mainViewModel?.dao?.insert(list.value!!)
-                Log.d("AAAA","dataDAO: ${mainViewModel?.dao.toString()}")
+                Log.d("AAAA","dataDAO: ${mainViewModel?.dao?.getAllDB()?.size}")
             }
         }
         return super.onOptionsItemSelected(item)
