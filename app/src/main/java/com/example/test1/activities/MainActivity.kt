@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.os.strictmode.Violation
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,6 +18,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.test1.R
 import com.example.test1.adapter.NotiAdapter
 import com.example.test1.databinding.ActivityMainBinding
@@ -42,6 +45,10 @@ class MainActivity : AppCompatActivity(),
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         list.value = ArrayList()
 
+        val swipeRefreshLayout = findViewById<View>(R.id.swipe_refresh_layout) as SwipeRefreshLayout
+
+
+
          val callBack = object :Presenter{
             override fun callBack(pos: Int) {
                     val builder = AlertDialog.Builder(this@MainActivity)
@@ -66,10 +73,18 @@ class MainActivity : AppCompatActivity(),
         recyclerView.itemAnimator = SlideInLeftAnimator()
         recyclerView.adapter = notiAdapter
         allPost
+        swipeRefreshLayout.setOnRefreshListener{
+            allPost
+            swipeRefreshLayout.isRefreshing = false
+            notiAdapter?.notifyDataSetChanged()
+            Log.d("AAAA","sizes : ${notiAdapter?.currentList?.size}")
+
+        }
     }
     fun observeData() {
         mainViewModel?.getArticleLiveData()?.observeForever {
             notiAdapter?.submitList(it)
+
         }
         mainViewModel?.getNetWorkState()?.networkState?.observeForever {
             notiAdapter?.setNetworkState(it)
@@ -79,6 +94,7 @@ class MainActivity : AppCompatActivity(),
         get() {
             mainViewModel?.allPost?.observe(this, Observer<List<Hit?>?> {
                 observeData()
+
             })
         }
     override fun onClick(view: View, pos: Int) {
@@ -99,7 +115,6 @@ class MainActivity : AppCompatActivity(),
             }
         }
     }
-
     override fun isChecked(hit: Hit?) {
         list.value?.add(hit!!)
         list.value = list.value

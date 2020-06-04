@@ -73,6 +73,7 @@
              android:layout_width="0dp"
              android:layout_height="match_parent"
              android:backgroundTintMode="@null"
+             android:visibility="gone"
              android:layout_weight="0.5"
              android:onClick="@{()->callback.callBack(index)}"
              android:id="@+id/btn_delete" />

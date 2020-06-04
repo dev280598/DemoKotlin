@@ -1,5 +1,6 @@
 package com.example.test1.viewholder
 
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.test1.BR
 import com.example.test1.databinding.PostListItemBinding
@@ -7,6 +8,8 @@ import com.example.test1.model.Hit
 import com.example.test1.services.Presenter
 import com.example.test1.services.onclickCallBack
 import kotlinx.android.synthetic.main.post_list_item.view.*
+
+
 
 class NotifyListingItemViewHolder(var binding: PostListItemBinding, private val adapterOnclick: onclickCallBack) : RecyclerView.ViewHolder(binding.root) {
 
@@ -32,10 +35,31 @@ class NotifyListingItemViewHolder(var binding: PostListItemBinding, private val 
                 }
             }
         }
+
+
+
+//        itemView.setOnLongClickListener { v ->
+//            val builder = androidx.appcompat.app.AlertDialog.Builder(v.context)
+//            builder.setTitle("Androidly Alert")
+//            builder.setMessage("You want to delete this noti")
+//            builder.setPositiveButton("Yes") { dialog, which ->
+//                //data?.checked = true
+//                binding.btnDelete.visibility = View.INVISIBLE
+//
+//            }
+//            builder.setNegativeButton(android.R.string.no) { dialog, which ->
+//            }
+//            builder.show()
+//            false
+//        }
     }
+
+
 companion object {
     fun create(binding: PostListItemBinding, adapterOnclick: onclickCallBack): NotifyListingItemViewHolder {
         return NotifyListingItemViewHolder(binding, adapterOnclick)
     }
 }
+
+
 }
