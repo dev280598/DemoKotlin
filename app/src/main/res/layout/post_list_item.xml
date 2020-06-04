@@ -47,7 +47,7 @@
 
         <TextView
             android:id="@+id/tv_title"
-            android:layout_weight="6.2"
+            android:layout_weight="7.2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
@@ -57,7 +57,7 @@
        <LinearLayout
            android:layout_gravity="center"
            android:weightSum="1"
-           android:layout_weight="2"
+           android:layout_weight="1"
            android:layout_width="0dp"
            android:layout_marginRight="3dp"
            android:layout_height="wrap_content"
@@ -65,18 +65,9 @@
          <CheckBox
              android:layout_width="0dp"
              android:layout_height="wrap_content"
-             android:layout_weight="0.5"
+             android:layout_weight="1"
              android:id="@+id/checkbox_id"
              android:checked="@{post.source.checkAccept}"/>
-         <ImageButton
-             android:background="@drawable/remove"
-             android:layout_width="0dp"
-             android:layout_height="match_parent"
-             android:backgroundTintMode="@null"
-             android:visibility="gone"
-             android:layout_weight="0.5"
-             android:onClick="@{()->callback.callBack(index)}"
-             android:id="@+id/btn_delete" />
        </LinearLayout>
       </LinearLayout>
       <ImageView

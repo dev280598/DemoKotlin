@@ -24,14 +24,12 @@ import java.io.IOException
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
-class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
-    private var mainViewModel: MainViewModel? = null
+class NotifyDataSource(private val notiDao: NotiDao) : PageKeyedDataSource<String, Hit>() {
     val networkState = MutableLiveData<NetworkState>()
     val initialLoad = MutableLiveData<NetworkState>()
     var userDataService = APIClient.client
     private var retryExecutor: Executor? = Executors.newFixedThreadPool(1)
     private var retry: (() -> Any)? = null
-    private var dao: NotiDao? =null
     fun retryAllFailed() {
         val prevRetry = retry
         retry = null
@@ -47,22 +45,29 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
         try {
             val call = userDataService.getDataInit()
             call.enqueue(object : Callback<NotifyResponse?> {
+
                 override fun onResponse(call: Call<NotifyResponse?>, response: Response<NotifyResponse?>) {
                     if (response.isSuccessful) {
-                        response.body()?.hits?.hits?.let {
-                            it.forEach { it ->
+                        response.body()?.hits?.hits?.let { it1 ->
+
+                            val db = notiDao?.getAllDB()
+
+                            it1.forEach { it ->
+
                                 if (LIST_KEY.containsKey(it.source.iv104)) {
                                     it.source.title =
                                             it.source.fi101[0].iv102 + " " + LIST_KEY[it.source.iv104 + ""]
-                                    Log.d("AAAA","Status: Loaded")
-                                 } else {
-                                 it.checked =true
-                                 }
+                                } else {
+                                    it.source.title = ""
+                                }
+                                db.forEach {it2->
+                                    if (it2._id==it._id){
+                                        it.checked = true
+                                    }
+                                }
                             }
-                                mainViewModel?.dao?.getAllDB()
-                                Log.d("AAAA","allData: ${mainViewModel?.dao?.getAllDB()}")
-                                SaveDataToDB(dao, it)
-                                callback.onResult(it, null, makeSort(it.lastOrNull()?.sort))
+//                                SaveDataToDB(dao, it)
+                                callback.onResult(it1, null, makeSort(it1.lastOrNull()?.sort))
                                 networkState.postValue(NetworkState.LOADED)
                                 initialLoad.postValue(NetworkState.LOADED)
                         }
@@ -91,19 +96,25 @@ class NotifyDataSource() : PageKeyedDataSource<String, Hit>() {
         call.enqueue(object : Callback<NotifyResponse?> {
             override fun onResponse(call: Call<NotifyResponse?>, response: Response<NotifyResponse?>) {
                 if (response.isSuccessful) {
-                    response.body()?.hits?.hits?.let {
-                        it.forEach { it ->
-                            if (LIST_KEY.containsKey(it.source.iv104)) {
-                                it.source.title =
-                                        it.source.fi101[0].iv102 + " " + LIST_KEY[it.source.iv104 + ""]
-                            } else {
-                                it.source.title = ""
+                    response.body()?.hits?.hits?.let { it1 ->
+                        val db = notiDao?.getAllDB()
+
+                            it1.forEach { it ->
+                                if (LIST_KEY.containsKey(it.source.iv104)) {
+                                    it.source.title =
+                                            it.source.fi101[0].iv102 + " " + LIST_KEY[it.source.iv104 + ""]
+                                } else {
+                                    it.source.title = ""
+                                }
+                                db.forEach {it2->
+                                    if (it2._id==it._id){
+                                        it.checked = true
+                                    }
+                                }
                             }
-                        }
-                        mainViewModel?.dao?.getAllDB()
-                        Log.d("AAAA","allData: ${mainViewModel?.dao?.getAllDB()}")
-                        SaveDataToDB(dao, it)
-                        callback.onResult(it,makeSort(it.lastOrNull()?.sort))
+                        Log.d("AAA","size: "+ db.size)
+//                        SaveDataToDB(dao, it)
+                        callback.onResult(it1,makeSort(it1.lastOrNull()?.sort))
                         networkState.postValue(NetworkState.LOADED)
                     }
                 }else networkState.postValue(NetworkState(NetworkState.Status.FAILED, response.message()))

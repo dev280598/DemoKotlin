@@ -21,14 +21,13 @@ import java.util.concurrent.Executors
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _likes = MutableLiveData(0)
     private val postRepository: NotiRepository
-     val dao: NotiDao
+    val dao: NotiDao
     private var executor: Executor? = null
     private var networkState: LiveData<NetworkState>
     private var articleLiveData: LiveData<PagedList<Hit>>? = null
 
     val likes : LiveData<Int> = _likes
-
-    val factoty = NotifyDataSourceFactory()
+    var factoty :NotifyDataSourceFactory?=null
     val allPost: LiveData<List<Hit>>
         get() = postRepository.getMutableLiveData()
 
@@ -40,29 +39,30 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
     init {
         dao = DB.getDatabase(application).NotiDao()
+        factoty = NotifyDataSourceFactory(dao)
         postRepository = NotiRepository()
         executor = Executors.newFixedThreadPool(5)
 
         val pagedListConfig = PagedList.Config.Builder().setEnablePlaceholders(false)
                 .setInitialLoadSizeHint(DEFAULT_NETWORK_PAGE_SIZE)
                 .setPageSize(DEFAULT_NETWORK_PAGE_SIZE)
-        articleLiveData = LivePagedListBuilder<String, Hit>(factoty, pagedListConfig.build())
+        articleLiveData = LivePagedListBuilder<String, Hit>(factoty!!, pagedListConfig.build())
                 .setFetchExecutor(executor!!)
                 .build()
-        networkState = factoty.sourceLiveData.switchMap {
+        networkState = factoty?.sourceLiveData!!.switchMap {
             it.initialLoad
         }
     }
     fun getNetWorkState(): Listing<Hit>{
         return Listing(
-                networkState = factoty.sourceLiveData.switchMap {
+                networkState = factoty?.sourceLiveData!!.switchMap {
                     it.networkState
                 },
                 retry = {
-                    factoty.sourceLiveData.value?.retryAllFailed()
+                    factoty?.sourceLiveData!!.value?.retryAllFailed()
                 },
                 refresh = {
-                    factoty.sourceLiveData.value?.invalidate()
+                    factoty?.sourceLiveData!!.value?.invalidate()
                 },
                 refreshState = networkState
         )

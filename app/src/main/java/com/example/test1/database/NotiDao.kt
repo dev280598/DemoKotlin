@@ -10,7 +10,7 @@ import com.example.test1.model.Hit
 @Dao
 interface NotiDao{
     @Query("SELECT * from noti_table")
-    fun getAllDB(): LiveData<List<Hit>>
+    fun getAllDB(): List<Hit>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
      fun insert(hits: List<Hit>)
     @Query("DELETE FROM noti_table")
