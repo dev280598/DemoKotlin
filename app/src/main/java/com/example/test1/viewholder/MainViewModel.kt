@@ -21,24 +21,21 @@ import java.util.concurrent.Executors
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _likes = MutableLiveData(0)
     private val postRepository: NotiRepository
-    val dao: NotiDao
+    val dao: NotiDao = DB.getDatabase(application).NotiDao()
     private var executor: Executor? = null
     private var networkState: LiveData<NetworkState>
     private var articleLiveData: LiveData<PagedList<Hit>>? = null
 
-    val likes : LiveData<Int> = _likes
+    var likes : LiveData<Int> = _likes
     var factoty :NotifyDataSourceFactory?=null
     val allPost: LiveData<List<Hit>>
         get() = postRepository.getMutableLiveData()
 
-    fun callback(){
-
-    }
     fun onLike(){
         _likes.value =(_likes.value ?: 0) +1
     }
+
     init {
-        dao = DB.getDatabase(application).NotiDao()
         factoty = NotifyDataSourceFactory(dao)
         postRepository = NotiRepository()
         executor = Executors.newFixedThreadPool(5)
@@ -53,6 +50,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             it.initialLoad
         }
     }
+
     fun getNetWorkState(): Listing<Hit>{
         return Listing(
                 networkState = factoty?.sourceLiveData!!.switchMap {
@@ -67,11 +65,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 refreshState = networkState
         )
     }
+
     fun getArticleLiveData(): LiveData<PagedList<Hit>>? {
         return articleLiveData
     }
-    //fun getDataDB(): LiveData<List<Hit>> = dao.getAllDB()
-
 }
 
 

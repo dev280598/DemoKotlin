@@ -4,16 +4,17 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.os.strictmode.Violation
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,104 +22,113 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.test1.R
 import com.example.test1.adapter.NotiAdapter
-import com.example.test1.database.NotiDao
 import com.example.test1.databinding.ActivityMainBinding
 import com.example.test1.model.Hit
 import com.example.test1.services.Presenter
 import com.example.test1.services.onclickCallBack
 import com.example.test1.viewholder.MainViewModel
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
+import kotlinx.android.synthetic.main.activity_main.*
 
-@Suppress("UNCHECKED_CAST")
-class MainActivity : AppCompatActivity(),
-        onclickCallBack{
-    private var mainViewModel: MainViewModel? = null
-    private var notiAdapter: NotiAdapter? = null
+@Suppress("UNCHECKED_CAST", "CAST_NEVER_SUCCEEDS")
+class MainActivity : AppCompatActivity(), onclickCallBack {
+
+    private val viewModel by lazy {
+        ViewModelProvider(this).get(MainViewModel::class.java)
+    }
+
+    private var adapterNoti: NotiAdapter? = null
     private val list = MutableLiveData<MutableList<Hit>>()
-    private var swipeRefreshLayout: SwipeRefreshLayout? =null
+    private var listChecked = ArrayList<Hit?>()
 
+
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val activityMainBinding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        val tv = findViewById<View>(R.id.tv) as TextView
-        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        list.value = ArrayList()
-
-         swipeRefreshLayout = findViewById<View>(R.id.swipe_refresh_layout) as SwipeRefreshLayout
-
-         val callBack = object :Presenter{
+        val callBack = object :Presenter{
             override fun callBack(pos: Int) {
-                    val builder = AlertDialog.Builder(this@MainActivity)
-                    builder.setTitle("Androidly Alert")
-                    builder.setMessage("You want to delete this noti")
-                    builder.setPositiveButton("Yes") { dialog, which ->
-                        notiAdapter?.currentList?.get(pos)?.checked=true
-                        notiAdapter?.notifyItemChanged(pos)
-                        isChecked(notiAdapter?.currentList?.get(pos))
-                    }
-                    builder.setNegativeButton(android.R.string.no) { dialog, which ->
-                    }
-                    builder.show()
+                val builder = AlertDialog.Builder(this@MainActivity)
+                builder.setTitle("Android Alert")
+                builder.setMessage("You want to delete this noti")
+                builder.setPositiveButton("Yes") { dialog, which ->
+                    adapterNoti?.currentList?.get(pos)?.checked=true
+                    adapterNoti?.notifyItemChanged(pos)
+                    isChecked(adapterNoti?.currentList?.get(pos))
                 }
+                builder.setNegativeButton(android.R.string.no) { dialog, which ->
+                }
+                builder.show()
+            }
         }
-        activityMainBinding.callback = callBack
+        DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main).apply {
+            this.lifecycleOwner = this@MainActivity
+            this.viewmodel = viewModel
+            callback = callBack
 
-        notiAdapter = NotiAdapter(this,callBack)
-        val recyclerView = activityMainBinding.viewPost
+        }
+        setSupportActionBar(toolbar)
+
+        list.value = ArrayList()
+        
+        adapterNoti = NotiAdapter(this,callBack)
+        val recyclerView = viewPost
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
         recyclerView.itemAnimator = SlideInLeftAnimator()
-        recyclerView.adapter = notiAdapter
+        recyclerView.adapter = adapterNoti
         allPost
-        swipeRefreshLayout?.setOnRefreshListener{
-          mainViewModel?.getNetWorkState()?.refresh?.invoke()
-            swipeRefreshLayout?.isRefreshing = false
+
+        swipe_refresh_layout.setOnRefreshListener{
+          viewModel.getNetWorkState().refresh.invoke()
+            listChecked.clear()
+            swipe_refresh_layout?.isRefreshing = false
         }
     }
 
     private fun observeData() {
-        mainViewModel?.getArticleLiveData()?.observeForever { it ->
-            notiAdapter?.submitList(it)
-
+        viewModel.getArticleLiveData()?.observeForever { it ->
+            adapterNoti?.submitList(it)
         }
-        mainViewModel?.getNetWorkState()?.networkState?.observeForever {
-            notiAdapter?.setNetworkState(it)
+        viewModel.getNetWorkState().networkState.observeForever {
+            adapterNoti?.setNetworkState(it)
         }
     }
     private val allPost: Unit
         get() {
-            mainViewModel?.allPost?.observe(this, Observer<List<Hit?>?> {
+            viewModel.allPost.observe(this, Observer<List<Hit?>?> {
                 observeData()
             })
         }
     override fun onClick(view: View, pos: Int) {
         when (view.id) {
             R.id.retry_button -> {
-                mainViewModel?.getNetWorkState()?.retry?.invoke()
+                viewModel.getNetWorkState().retry.invoke()
             }
             R.id.bt_accept -> {
-                notiAdapter?.currentList?.get(pos)?.source?.checkAccept = true
-                notiAdapter?.setItemChaged(pos)
+                adapterNoti?.currentList?.get(pos)?.source?.checkAccept = true
+                adapterNoti?.setItemChaged(pos)
             }
             R.id.bt_cancel -> {
-                notiAdapter?.currentList?.get(pos)?.source?.checkAccept = true
-                notiAdapter?.setItemChaged(pos)
+                adapterNoti?.currentList?.get(pos)?.source?.checkAccept = true
+                adapterNoti?.setItemChaged(pos)
             }
             R.id.checkbox_id -> {
-                notiAdapter?.currentList?.get(pos)?.source?.checkAccept = true
+                adapterNoti?.currentList?.get(pos)?.source?.checkAccept = true
             }
         }
     }
     override fun isChecked(hit: Hit?) {
         list.value?.add(hit!!)
         list.value = list.value
+        listChecked.add(hit)
+        viewModel.onLike()
+        Log.d("AAAA","LIKE:  ${viewModel.likes.value}")
+
     }
 
     override fun unChecked(hit: Hit?, pos: Int) {
         list.value?.remove(hit!!)
+        listChecked.remove(hit)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -129,21 +139,39 @@ class MainActivity : AppCompatActivity(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if (id == R.id.action_one) {
-            val intent = Intent(this, ResultActivity::class.java)
-            val bundle = Bundle()
-            bundle.putParcelableArrayList("Hit", list.value as ArrayList<out Parcelable> )
-            intent.putExtra("BUNDLE", bundle)
-            startActivity(intent)
+            if (listChecked.size==0){
+                val intent = Intent(this,ResultActivity::class.java)
+                val bundle = Bundle()
+                bundle.putParcelableArrayList("Hit", list.value as ArrayList<out Parcelable> )
+                intent.putExtra("BUNDLE", bundle)
+                startActivity(intent)
+            }else{
+                Toast.makeText(this,"You are performing another task",Toast.LENGTH_SHORT).show()
+            }
+
+
             return true
         }
         if (id ==R.id.action_two){
-            list.value?.forEach {
-                if (list.value!=null){
-                    it.checked = true
-                    notiAdapter?.notifyDataSetChanged()
+            if (listChecked.size == 0) {
+                Toast.makeText(this,"Check in pls",Toast.LENGTH_SHORT).show()
+            }else {
+                val builder = AlertDialog.Builder(this@MainActivity)
+                builder.setTitle("Android Alert")
+                builder.setMessage("You want to delete this notifications " + tv.text)
+                builder.setPositiveButton("Yes") { dialog, which ->
+                    list.value?.forEach {
+                        if (list.value != null) {
+                            it.checked = true
+                            adapterNoti?.notifyDataSetChanged()
+                        }
+                        viewModel.dao.insert(list.value!!)
+                    }
+                    listChecked.clear()
                 }
-               mainViewModel?.dao?.insert(list.value!!)
-                Log.d("AAAA","dataDAO: ${mainViewModel?.dao?.getAllDB()?.size}")
+                builder.setNegativeButton(android.R.string.no) { dialog, which ->
+                }
+                builder.show()
             }
         }
         return super.onOptionsItemSelected(item)

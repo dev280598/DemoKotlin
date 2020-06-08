@@ -50,7 +50,7 @@ class NotifyDataSource(private val notiDao: NotiDao) : PageKeyedDataSource<Strin
                     if (response.isSuccessful) {
                         response.body()?.hits?.hits?.let { it1 ->
 
-                            val db = notiDao?.getAllDB()
+                            val db = notiDao.getAllDB()
 
                             it1.forEach { it ->
 
@@ -97,7 +97,7 @@ class NotifyDataSource(private val notiDao: NotiDao) : PageKeyedDataSource<Strin
             override fun onResponse(call: Call<NotifyResponse?>, response: Response<NotifyResponse?>) {
                 if (response.isSuccessful) {
                     response.body()?.hits?.hits?.let { it1 ->
-                        val db = notiDao?.getAllDB()
+                        val db = notiDao.getAllDB()
 
                             it1.forEach { it ->
                                 if (LIST_KEY.containsKey(it.source.iv104)) {

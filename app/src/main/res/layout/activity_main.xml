@@ -9,6 +9,7 @@
         <variable
             name="viewmodel"
             type="com.example.test1.viewholder.MainViewModel" />
+        <import type="android.view.View"/>
     </data>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
@@ -28,16 +29,14 @@
             android:layout_height="wrap_content"
             app:subtitle="List notification"
             app:title="Hahalolo"/>
-
         <TextView
-            android:visibility="gone"
-            android:layout_width="wrap_content"
             android:id="@+id/tv"
-            android:textColor="#000"
-            android:textSize="20sp"
-            android:layout_margin="10dp"
+            android:visibility="gone"
+            android:text='@{"(" + Integer.toString(viewmodel.likes)+")"}'
+            android:layout_width="wrap_content"
+            android:textSize="15sp"
+           android:layout_gravity="center"
             android:layout_height="wrap_content"/>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/viewPost"
             android:layout_width="match_parent"
