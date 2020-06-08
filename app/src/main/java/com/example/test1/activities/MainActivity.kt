@@ -77,6 +77,7 @@ class MainActivity : AppCompatActivity(), onclickCallBack {
         recyclerView.itemAnimator = SlideInLeftAnimator()
         recyclerView.adapter = adapterNoti
         allPost
+        Log.d("AAA","${viewModel.counts.value}")
 
         swipe_refresh_layout.setOnRefreshListener{
           viewModel.getNetWorkState().refresh.invoke()
@@ -121,9 +122,8 @@ class MainActivity : AppCompatActivity(), onclickCallBack {
         list.value?.add(hit!!)
         list.value = list.value
         listChecked.add(hit)
-        viewModel.onLike()
-        Log.d("AAAA","LIKE:  ${viewModel.likes.value}")
-
+        viewModel.onCount()
+        tv.visibility = View.VISIBLE
     }
 
     override fun unChecked(hit: Hit?, pos: Int) {
@@ -158,7 +158,7 @@ class MainActivity : AppCompatActivity(), onclickCallBack {
             }else {
                 val builder = AlertDialog.Builder(this@MainActivity)
                 builder.setTitle("Android Alert")
-                builder.setMessage("You want to delete this notifications " + tv.text)
+                builder.setMessage("You want to delete" + " ("+viewModel.counts.value+") " +  "notifications " )
                 builder.setPositiveButton("Yes") { dialog, which ->
                     list.value?.forEach {
                         if (list.value != null) {
@@ -168,6 +168,8 @@ class MainActivity : AppCompatActivity(), onclickCallBack {
                         viewModel.dao.insert(list.value!!)
                     }
                     listChecked.clear()
+                    tv.visibility = View.GONE
+                    viewModel.onResetCount()
                 }
                 builder.setNegativeButton(android.R.string.no) { dialog, which ->
                 }

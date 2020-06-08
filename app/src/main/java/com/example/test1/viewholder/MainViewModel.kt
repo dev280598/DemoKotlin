@@ -19,20 +19,23 @@ import java.util.concurrent.Executors
 
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
-    private val _likes = MutableLiveData(0)
+    private val _count = MutableLiveData(0)
     private val postRepository: NotiRepository
     val dao: NotiDao = DB.getDatabase(application).NotiDao()
     private var executor: Executor? = null
     private var networkState: LiveData<NetworkState>
     private var articleLiveData: LiveData<PagedList<Hit>>? = null
 
-    var likes : LiveData<Int> = _likes
+    var counts : LiveData<Int> = _count
     var factoty :NotifyDataSourceFactory?=null
     val allPost: LiveData<List<Hit>>
         get() = postRepository.getMutableLiveData()
 
-    fun onLike(){
-        _likes.value =(_likes.value ?: 0) +1
+    fun onCount(){
+        _count.value =(_count.value ?: 0) +1
+    }
+    fun onResetCount(){
+        _count.value = 0
     }
 
     init {

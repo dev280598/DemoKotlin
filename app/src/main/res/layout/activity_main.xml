@@ -32,7 +32,8 @@
         <TextView
             android:id="@+id/tv"
             android:visibility="gone"
-            android:text='@{"(" + Integer.toString(viewmodel.likes)+")"}'
+            android:textColor="#F80808"
+            android:text='@{"Delete"+"("+Integer.toString(viewmodel.counts)+")"}'
             android:layout_width="wrap_content"
             android:textSize="15sp"
            android:layout_gravity="center"
