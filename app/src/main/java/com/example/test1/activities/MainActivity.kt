@@ -82,6 +82,8 @@ class MainActivity : AppCompatActivity(), onclickCallBack {
         swipe_refresh_layout.setOnRefreshListener{
           viewModel.getNetWorkState().refresh.invoke()
             listChecked.clear()
+            tv.visibility = View.GONE
+            viewModel.onResetCount()
             swipe_refresh_layout?.isRefreshing = false
         }
     }
@@ -129,6 +131,11 @@ class MainActivity : AppCompatActivity(), onclickCallBack {
     override fun unChecked(hit: Hit?, pos: Int) {
         list.value?.remove(hit!!)
         listChecked.remove(hit)
+        viewModel.onunCount()
+        if (listChecked.size == 0){
+            tv.visibility = View.GONE
+            viewModel.onResetCount()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

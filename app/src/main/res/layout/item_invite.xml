@@ -4,6 +4,13 @@
         <variable
             name="post"
             type="com.example.test1.model.Hit" />
+        <variable
+            name="index"
+            type="Integer" />
+        <variable
+            name="callback"
+            type="com.example.test1.services.Presenter" />
+        <import type="android.view.View" />
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -68,6 +75,15 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:background="#C6C6C6" />
+        <CheckBox
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkbox__id"
+            android:layout_marginEnd="3dp"
+
+            android:layout_marginRight="3dp" />
 
     </RelativeLayout>
 </layout>

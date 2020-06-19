@@ -31,6 +31,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val allPost: LiveData<List<Hit>>
         get() = postRepository.getMutableLiveData()
 
+    fun onunCount(){
+        _count.value =(_count.value ?: 0) -1
+    }
     fun onCount(){
         _count.value =(_count.value ?: 0) +1
     }
